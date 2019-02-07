@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="bbbox_voiceprintLookup" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/bbbox_voiceprintLookup" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option parameters="/home/ben/test/newsound.wav /home/ben/test/newsound.wav /home/ben/test/modelDatabase.txt" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/bbbox_voiceprintLookup" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+		</Compiler>
+		<Unit filename="../abs.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../abs.h" />
+		<Unit filename="../bbbox_voiceprintLookup.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../bbbox_voiceprintLookup.h" />
+		<Unit filename="../bbbox_voiceprintLookup_data.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../bbbox_voiceprintLookup_data.h" />
+		<Unit filename="../bbbox_voiceprintLookup_emxutil.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../bbbox_voiceprintLookup_emxutil.h" />
+		<Unit filename="../bbbox_voiceprintLookup_initialize.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../bbbox_voiceprintLookup_initialize.h" />
+		<Unit filename="../bbbox_voiceprintLookup_rtwutil.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../bbbox_voiceprintLookup_rtwutil.h" />
+		<Unit filename="../bbbox_voiceprintLookup_terminate.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../bbbox_voiceprintLookup_terminate.h" />
+		<Unit filename="../bbbox_voiceprintLookup_types.h" />
+		<Unit filename="../combineVectorElements.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../combineVectorElements.h" />
+		<Unit filename="../createFrames.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../createFrames.h" />
+		<Unit filename="../examples/main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../examples/main.h" />
+		<Unit filename="../exp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../exp.h" />
+		<Unit filename="../fclose.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../fclose.h" />
+		<Unit filename="../fft.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../fft.h" />
+		<Unit filename="../fileManager.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../fileManager.h" />
+		<Unit filename="../filter.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../filter.h" />
+		<Unit filename="../fread.h" />
+		<Unit filename="../generateFeaturesForTesting.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../generateFeaturesForTesting.h" />
+		<Unit filename="../generateFilterbank.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../generateFilterbank.h" />
+		<Unit filename="../generateScore.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../generateScore.h" />
+		<Unit filename="../loadDatabaseFromFile.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../loadDatabaseFromFile.h" />
+		<Unit filename="../log.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../log.h" />
+		<Unit filename="../mean.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../mean.h" />
+		<Unit filename="../power.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../power.h" />
+		<Unit filename="../rdivide.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../rdivide.h" />
+		<Unit filename="../rtGetInf.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../rtGetInf.h" />
+		<Unit filename="../rtGetNaN.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../rtGetNaN.h" />
+		<Unit filename="../rt_nonfinite.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../rt_nonfinite.h" />
+		<Unit filename="../rtwtypes.h" />
+		<Unit filename="../sort1.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../sort1.h" />
+		<Unit filename="../sortIdx.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../sortIdx.h" />
+		<Unit filename="../sqrt.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../sqrt.h" />
+		<Unit filename="../sum.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../sum.h" />
+		<Unit filename="../testWaveWithModels.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../testWaveWithModels.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

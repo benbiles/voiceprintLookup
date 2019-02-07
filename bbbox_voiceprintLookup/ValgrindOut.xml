@@ -1,0 +1,207 @@
+<?xml version="1.0"?>
+
+<valgrindoutput>
+
+<protocolversion>4</protocolversion>
+<protocoltool>memcheck</protocoltool>
+
+<preamble>
+  <line>Memcheck, a memory error detector</line>
+  <line>Copyright (C) 2002-2015, and GNU GPL'd, by Julian Seward et al.</line>
+  <line>Using Valgrind-3.11.0 and LibVEX; rerun with -h for copyright info</line>
+  <line>Command: /home/ben/bbbox_voiceprintLookup/bbbox_voiceprintLookup/bin/Debug/bbbox_voiceprintLookup /home/ben/test/newsound.wav /home/ben/test/newsound.wav /home/ben/test/modelDatabase.txt</line>
+</preamble>
+
+<pid>6986</pid>
+<ppid>30740</ppid>
+<tool>memcheck</tool>
+
+<args>
+  <vargv>
+    <exe>/usr/bin/valgrind.bin</exe>
+    <arg>--leak-check=full</arg>
+    <arg>--track-origins=yes</arg>
+    <arg>--xml=yes</arg>
+    <arg>--xml-file=/home/ben/bbbox_voiceprintLookup/bbbox_voiceprintLookup/ValgrindOut.xml</arg>
+  </vargv>
+  <argv>
+    <exe>/home/ben/bbbox_voiceprintLookup/bbbox_voiceprintLookup/bin/Debug/bbbox_voiceprintLookup</exe>
+    <arg>/home/ben/test/newsound.wav</arg>
+    <arg>/home/ben/test/newsound.wav</arg>
+    <arg>/home/ben/test/modelDatabase.txt</arg>
+  </argv>
+</args>
+
+<status>
+  <state>RUNNING</state>
+  <time>00:00:00:00.057 </time>
+</status>
+
+<error>
+  <unique>0x0</unique>
+  <tid>1</tid>
+  <kind>InvalidRead</kind>
+  <what>Invalid read of size 4</what>
+  <stack>
+    <frame>
+      <ip>0x409A78</ip>
+      <obj>/home/ben/bbbox_voiceprintLookup/bbbox_voiceprintLookup/bin/Debug/bbbox_voiceprintLookup</obj>
+      <fn>power</fn>
+      <dir>/home/ben/bbbox_voiceprintLookup</dir>
+      <file>power.c</file>
+      <line>54</line>
+    </frame>
+    <frame>
+      <ip>0x40308F</ip>
+      <obj>/home/ben/bbbox_voiceprintLookup/bbbox_voiceprintLookup/bin/Debug/bbbox_voiceprintLookup</obj>
+      <fn>generateFeaturesForTesting</fn>
+      <dir>/home/ben/bbbox_voiceprintLookup</dir>
+      <file>generateFeaturesForTesting.c</file>
+      <line>131</line>
+    </frame>
+    <frame>
+      <ip>0x40C3F5</ip>
+      <obj>/home/ben/bbbox_voiceprintLookup/bbbox_voiceprintLookup/bin/Debug/bbbox_voiceprintLookup</obj>
+      <fn>testWaveWithModels</fn>
+      <dir>/home/ben/bbbox_voiceprintLookup</dir>
+      <file>testWaveWithModels.c</file>
+      <line>240</line>
+    </frame>
+    <frame>
+      <ip>0x400EDC</ip>
+      <obj>/home/ben/bbbox_voiceprintLookup/bbbox_voiceprintLookup/bin/Debug/bbbox_voiceprintLookup</obj>
+      <fn>bbbox_voiceprintLookup</fn>
+      <dir>/home/ben/bbbox_voiceprintLookup</dir>
+      <file>bbbox_voiceprintLookup.c</file>
+      <line>46</line>
+    </frame>
+    <frame>
+      <ip>0x402216</ip>
+      <obj>/home/ben/bbbox_voiceprintLookup/bbbox_voiceprintLookup/bin/Debug/bbbox_voiceprintLookup</obj>
+      <fn>main</fn>
+      <dir>/home/ben/bbbox_voiceprintLookup/examples</dir>
+      <file>main.c</file>
+      <line>254</line>
+    </frame>
+  </stack>
+  <auxwhat>Address 0xbf4b001b001b001b is not stack'd, malloc'd or (recently) free'd</auxwhat>
+</error>
+
+
+<status>
+  <state>FINISHED</state>
+  <time>00:00:00:01.517 </time>
+</status>
+
+<error>
+  <unique>0x9</unique>
+  <tid>1</tid>
+  <kind>Leak_DefinitelyLost</kind>
+  <xwhat>
+    <text>36 (32 direct, 4 indirect) bytes in 1 blocks are definitely lost in loss record 9 of 12</text>
+    <leakedbytes>36</leakedbytes>
+    <leakedblocks>1</leakedblocks>
+  </xwhat>
+  <stack>
+    <frame>
+      <ip>0x4C2DB8F</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>malloc</fn>
+    </frame>
+    <frame>
+      <ip>0x401812</ip>
+      <obj>/home/ben/bbbox_voiceprintLookup/bbbox_voiceprintLookup/bin/Debug/bbbox_voiceprintLookup</obj>
+      <fn>emxInit_real_T</fn>
+      <dir>/home/ben/bbbox_voiceprintLookup</dir>
+      <file>bbbox_voiceprintLookup_emxutil.c</file>
+      <line>378</line>
+    </frame>
+    <frame>
+      <ip>0x40BE6B</ip>
+      <obj>/home/ben/bbbox_voiceprintLookup/bbbox_voiceprintLookup/bin/Debug/bbbox_voiceprintLookup</obj>
+      <fn>testWaveWithModels</fn>
+      <dir>/home/ben/bbbox_voiceprintLookup</dir>
+      <file>testWaveWithModels.c</file>
+      <line>58</line>
+    </frame>
+    <frame>
+      <ip>0x400EDC</ip>
+      <obj>/home/ben/bbbox_voiceprintLookup/bbbox_voiceprintLookup/bin/Debug/bbbox_voiceprintLookup</obj>
+      <fn>bbbox_voiceprintLookup</fn>
+      <dir>/home/ben/bbbox_voiceprintLookup</dir>
+      <file>bbbox_voiceprintLookup.c</file>
+      <line>46</line>
+    </frame>
+    <frame>
+      <ip>0x402216</ip>
+      <obj>/home/ben/bbbox_voiceprintLookup/bbbox_voiceprintLookup/bin/Debug/bbbox_voiceprintLookup</obj>
+      <fn>main</fn>
+      <dir>/home/ben/bbbox_voiceprintLookup/examples</dir>
+      <file>main.c</file>
+      <line>254</line>
+    </frame>
+  </stack>
+</error>
+
+<error>
+  <unique>0xa</unique>
+  <tid>1</tid>
+  <kind>Leak_DefinitelyLost</kind>
+  <xwhat>
+    <text>36 (32 direct, 4 indirect) bytes in 1 blocks are definitely lost in loss record 10 of 12</text>
+    <leakedbytes>36</leakedbytes>
+    <leakedblocks>1</leakedblocks>
+  </xwhat>
+  <stack>
+    <frame>
+      <ip>0x4C2DB8F</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>malloc</fn>
+    </frame>
+    <frame>
+      <ip>0x401812</ip>
+      <obj>/home/ben/bbbox_voiceprintLookup/bbbox_voiceprintLookup/bin/Debug/bbbox_voiceprintLookup</obj>
+      <fn>emxInit_real_T</fn>
+      <dir>/home/ben/bbbox_voiceprintLookup</dir>
+      <file>bbbox_voiceprintLookup_emxutil.c</file>
+      <line>378</line>
+    </frame>
+    <frame>
+      <ip>0x40BE7F</ip>
+      <obj>/home/ben/bbbox_voiceprintLookup/bbbox_voiceprintLookup/bin/Debug/bbbox_voiceprintLookup</obj>
+      <fn>testWaveWithModels</fn>
+      <dir>/home/ben/bbbox_voiceprintLookup</dir>
+      <file>testWaveWithModels.c</file>
+      <line>59</line>
+    </frame>
+    <frame>
+      <ip>0x400EDC</ip>
+      <obj>/home/ben/bbbox_voiceprintLookup/bbbox_voiceprintLookup/bin/Debug/bbbox_voiceprintLookup</obj>
+      <fn>bbbox_voiceprintLookup</fn>
+      <dir>/home/ben/bbbox_voiceprintLookup</dir>
+      <file>bbbox_voiceprintLookup.c</file>
+      <line>46</line>
+    </frame>
+    <frame>
+      <ip>0x402216</ip>
+      <obj>/home/ben/bbbox_voiceprintLookup/bbbox_voiceprintLookup/bin/Debug/bbbox_voiceprintLookup</obj>
+      <fn>main</fn>
+      <dir>/home/ben/bbbox_voiceprintLookup/examples</dir>
+      <file>main.c</file>
+      <line>254</line>
+    </frame>
+  </stack>
+</error>
+
+<errorcounts>
+  <pair>
+    <count>1</count>
+    <unique>0x0</unique>
+  </pair>
+</errorcounts>
+
+<suppcounts>
+</suppcounts>
+
+</valgrindoutput>
+

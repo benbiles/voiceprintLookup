@@ -3,6 +3,9 @@
  */
 
 /* Include Files */
+
+// #include <matrix.h>  // BEN included this for MX arrays ?
+
 #include <math.h>
 #include "rt_nonfinite.h"
 #include "bbbox_voiceprintLookup.h"
@@ -11,6 +14,9 @@
 #include "bbbox_voiceprintLookup_emxutil.h"
 #include "generateScore.h"
 #include "generateFeaturesForTesting.h"
+
+
+
 // #include "fclose.h"
 // #include "fread.h"
 // #include "fileManager.h"
@@ -29,8 +35,14 @@
 void testWaveWithModels(const char *fileNameWaveSeparated[255], const char *fileNameWavePostfiltered[255],
                         const cell_0 *modelStructure, cell_1 *choices, double scores[4])
 {
+
+
   emxArray_real_T *xSeparated;
   emxArray_real_T *xPostfiltered;
+
+
+ // xSeparated *mxCreateDoubleMatrix(5000000, 1, mxREAL);
+ // xPostfiltered *mxCreateDoubleMatrix(5000000, 1, mxREAL);
 
 
   double value;
@@ -47,16 +59,23 @@ void testWaveWithModels(const char *fileNameWaveSeparated[255], const char *file
   double Bl[24];
   double choicesIndex[4];
 
-  // this was the dummy file...
 
-   static const char cv0[18] = { 'j', 'u', 'n', 'k', ' ', 'b', 'e', 'n',
-    ' ', 'd ','e ', 'f ', 'i ', 'n ', 'e ', ' ', ' ' };
+  (void)fileNameWaveSeparated;  // what does this do ? matlab generated!
 
 
-  (void)fileNameWaveSeparated;
 
   emxInit_real_T(&xSeparated, 1);
   emxInit_real_T(&xPostfiltered, 1);
+
+  xSeparated->size[0]=5000000;  // max size of array, but i thought this was dynamic?
+  xPostfiltered->size[0]=5000000;
+
+
+ // assign mem
+
+ emxEnsureCapacity_real_T((emxArray_real_T *)xSeparated,0);
+ emxEnsureCapacity_real_T((emxArray_real_T *)xPostfiltered,0);
+
 
   // re-write of the error checking..
 
@@ -90,24 +109,15 @@ puts(fileNameWaveSeparated);
 puts(fileNameWavePostfiltered);
 
 
-//fread into xSeparated which
-//  is an emxArray_real_T  array ??!!!!!!!!!!!!!!!!!!!!!!!!!
+// impliment audioread from matlab , samples into memory.
 
-// were trying to impliment audioread in matlab !
-// read Wav A
+/// READ WAV A
 
 FILE *fileid =NULL;
 signed short ssA;
 
-
-double *memdumpA;
-memdumpA = malloc (sizeof(double) * 5000000);
-
-
-double sampleA; // convert the signed short sample into double
 int buffCountA = 0; // 512 samples per cell
 
-// int indexer; // ?????
 
 fileid = fopen(fileNameWaveSeparated, "rb");
  // error check
@@ -116,29 +126,25 @@ fileid = fopen(fileNameWaveSeparated, "rb");
       exit(1);
     }
 
-  fseek (fileid,46,SEEK_SET); // drop the wav header we don't need it
+  fseek (fileid,44,SEEK_SET); // drop the wav header we don't need it
   while (fread(&ssA, sizeof(signed short) ,1 , fileid) == 1)
     {
-    sampleA=((double)ssA); // *(signed)0xFFFF; // wav sample signed short to double
-    memdumpA [buffCountA] = sampleA;
+    xSeparated->data[buffCountA]=((double)ssA) *(signed)0xFFFFFFFF; // wav sample signed short to double
     buffCountA++;
      }
 
   fclose(fileid);
 
-  memcpy(xSeparated,memdumpA,sizeof memdumpA);
 
- free(memdumpA); // free memory from samples wavA
+// debug
+// for ( int i = 1; i <=10000; i++) {printf("%f \r\n",xSeparated->data[i]);}
 
 
-  // read Wav B
+
+/// READ WAV B
 
 // fileid already defined
 signed short ssB;
-double sampleB;
-
-double *memdumpB;
-memdumpB = malloc (sizeof(double) * 5000000);
 
 int buffCountB = 0; //
 
@@ -149,33 +155,21 @@ fileid = fopen(fileNameWavePostfiltered, "rb");
       exit(1);
     }
 
-  fseek (fileid,46,SEEK_SET); // drop the wav header we don't need it
+  fseek (fileid,44,SEEK_SET); // drop the wav header we don't need it
 
     while (fread(&ssB, sizeof(signed short) ,1 , fileid) == 1)
         {
-     sampleB=((double)ssB);  // /(signed)0xFFFF; // wav sample signed short to double
-     memdumpB[buffCountB] = sampleB;
+     xPostfiltered->data[buffCountB]=((double)ssB) *(signed)0xFFFFFFFF;  // /(signed)0xFFFF; // wav sample signed short to double
      buffCountB++;
         }
 
   fclose(fileid);
 
-  memcpy(xPostfiltered,memdumpB,sizeof memdumpB);
-
- free(memdumpB); // free memory from samples wavB
-
-  // END read wav files to test
+//debug
+  // for ( int i = 1; i <=10000; i++) { printf("%f \r\n",xPostfiltered->data[i]);}
 
 
-  // check samples are in memory , debugging
-  // WARNING, can't use Xterm ! not enough buffer !
 
-//  for ( int i = 0; i <=buffCountB; i++)
-//  {
-//  printf( "%f", &xSeparated[i],"\r\n");
-//  printf( "%f", &xPostfiltered[i],"\r\n");
-//   puts("");
-//    }
 
 
   /*  Load models */
@@ -199,7 +193,7 @@ fileid = fopen(fileNameWavePostfiltered, "rb");
 
    /*  BEN added definition of value here for C code generation */
   /// float value = 0.0;  // should i define this as a floating point ? ?????
-
+value = 0.0;
 
   for (k = 0; k < 1024; k++) {
     /*  Define the shape of the window */
@@ -245,18 +239,24 @@ generateScore(modelStructure->f5, modelStructure->f6, modelStructure->f7,modelSt
   emxFree_real_T(&activeFeatures);
   emxFree_real_T(&xPostfiltered);
   emxFree_real_T(&xSeparated);
-  for (k = 0; k < 18; k++)
 
-    {
-        choices->f1[k] = cv0[k];
 
-        /*  choices{i} = modelsDatabase{choicesIndex(i),1}; */ // original troubling line !!!
+
+
+// printf ("%f \r\n",choicesIndex[1]);
+
+
+
+int bolox = choicesIndex[2];
+
+printf ("voiceprint ID detected.. %s \r\n",choices->modelNames[bolox]);  // 2d array modelNames in cell_1 strut
+
      //*********************************************************************************
 
-    // choices->f1(k) = modelsDatabase(choicesIndex(k),1));   //  just change i to K , to simple !?
+    // choices->f1(k) = modelsDatabase(&choicesIndex(k),1));   //  just change i to K , to simple !?
 
      //******************************************************************************************
-    }
+
 
   /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  */
 }

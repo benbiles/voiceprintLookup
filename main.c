@@ -126,7 +126,7 @@ static void main_bbbox_voiceprintLookup(void)
   char cv2[255];
   char cv3[255];
 
-  char voiceId[18]; // Ben added this , maybe wrong!
+  char voiceId[18]; // Ben added this , need to find out ow voiceId is supposed to work!
 
   /* Initialize function 'bbbox_voiceprintLookup' input arguments. */
   /* Initialize function input argument 'wavFileA'. */
@@ -156,7 +156,7 @@ static void main_loadDatabaseFromFile(void)
   /* Call the entry-point 'loadDatabaseFromFile'. */
   argInit_1x17_char_T(cv4);
 
-  // loadDatabaseFromFile(cv4, &varDatabase);
+ // loadDatabaseFromFile(cv4, &varDatabase);
 }
 
 /*
@@ -251,13 +251,12 @@ puts("");
 
 
 // test file paths defined in main.h , testing only
-bbbox_voiceprintLookup(&wavFileA,&wavFileB,&databaseFile,&voiceId);
+// bbbox_voiceprintLookup(&wavFileA,&wavFileB,&databaseFile,&voiceId);
 
 /// uncomment this for for deployed app using passed paths of wavs and database from command line!
 /// wavA, wavB, databasefile, not sure what voiceID is here yet !!! will delete if possible
 
-// bbbox_voiceprintLookup(argv[1],argv[2],argv[3],voiceId);
-
+ bbbox_voiceprintLookup(argv[1],argv[2],argv[3],&voiceId);
 
 
 // wanted to do this here but its at the end of bbbox_voiceprintLookup for now!

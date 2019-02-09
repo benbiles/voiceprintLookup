@@ -69,10 +69,6 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../createFrames.h" />
-		<Unit filename="../examples/main.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="../examples/main.h" />
 		<Unit filename="../exp.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -114,6 +110,11 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../log.h" />
+		<Unit filename="../main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../main.h" />
+		<Unit filename="../matrix.h" />
 		<Unit filename="../mean.c">
 			<Option compilerVar="CC" />
 		</Unit>

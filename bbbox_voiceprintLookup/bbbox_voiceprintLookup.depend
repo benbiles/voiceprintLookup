@@ -20,17 +20,17 @@
 	"rtwtypes.h"
 	"bbbox_voiceprintLookup_types.h"
 
-1549006468 /home/ben/bbbox_voiceprintLookup/bbbox_voiceprintLookup_types.h
+1549734666 /home/ben/bbbox_voiceprintLookup/bbbox_voiceprintLookup_types.h
 	"rtwtypes.h"
 	<stdio.h>
 
-1549439904 /home/ben/bbbox_voiceprintLookup/loadDatabaseFromFile.h
+1549725927 /home/ben/bbbox_voiceprintLookup/loadDatabaseFromFile.h
 	<stddef.h>
 	<stdlib.h>
 	"rtwtypes.h"
 	"bbbox_voiceprintLookup_types.h"
 
-1549439793 /home/ben/bbbox_voiceprintLookup/testWaveWithModels.h
+1549623603 /home/ben/bbbox_voiceprintLookup/testWaveWithModels.h
 	<stddef.h>
 	<stdlib.h>
 	"rtwtypes.h"
@@ -42,7 +42,7 @@
 	"rtwtypes.h"
 	"bbbox_voiceprintLookup_types.h"
 
-1549440492 source:/home/ben/bbbox_voiceprintLookup/bbbox_voiceprintLookup.c
+1549734131 source:/home/ben/bbbox_voiceprintLookup/bbbox_voiceprintLookup.c
 	"rt_nonfinite.h"
 	"bbbox_voiceprintLookup.h"
 	"loadDatabaseFromFile.h"
@@ -248,7 +248,7 @@
 	"rtwtypes.h"
 	"bbbox_voiceprintLookup_types.h"
 
-1549275547 source:/home/ben/bbbox_voiceprintLookup/generateFeaturesForTesting.c
+1549682571 source:/home/ben/bbbox_voiceprintLookup/generateFeaturesForTesting.c
 	<math.h>
 	<string.h>
 	"rt_nonfinite.h"
@@ -271,7 +271,7 @@
 	"sqrt.h"
 	"mean.h"
 
-1549006469 /home/ben/bbbox_voiceprintLookup/generateFeaturesForTesting.h
+1549682563 /home/ben/bbbox_voiceprintLookup/generateFeaturesForTesting.h
 	<stddef.h>
 	<stdlib.h>
 	"rtwtypes.h"
@@ -326,7 +326,7 @@
 	"testWaveWithModels.h"
 	"generateFilterbank.h"
 
-1549555849 source:/home/ben/bbbox_voiceprintLookup/generateScore.c
+1549596935 source:/home/ben/bbbox_voiceprintLookup/generateScore.c
 	<math.h>
 	"rt_nonfinite.h"
 	"bbbox_voiceprintLookup.h"
@@ -353,7 +353,7 @@
 	"rtwtypes.h"
 	"bbbox_voiceprintLookup_types.h"
 
-1549006470 source:/home/ben/bbbox_voiceprintLookup/interface/_coder_bbbox_voiceprintLookup_api.c
+1549637076 source:/home/ben/bbbox_voiceprintLookup/interface/_coder_bbbox_voiceprintLookup_api.c
 	"tmwtypes.h"
 	"_coder_bbbox_voiceprintLookup_api.h"
 	"_coder_bbbox_voiceprintLookup_mex.h"
@@ -387,7 +387,7 @@
 	"_coder_bbbox_voiceprintLookup_api.h"
 	"_coder_bbbox_voiceprintLookup_mex.h"
 
-1549439904 source:/home/ben/bbbox_voiceprintLookup/loadDatabaseFromFile.c
+1549734835 source:/home/ben/bbbox_voiceprintLookup/loadDatabaseFromFile.c
 	<stdio.h>
 	<stdlib.h>
 	<math.h>
@@ -488,7 +488,7 @@
 	"testWaveWithModels.h"
 	"sum.h"
 
-1549556421 source:/home/ben/bbbox_voiceprintLookup/testWaveWithModels.c
+1549735370 source:/home/ben/bbbox_voiceprintLookup/testWaveWithModels.c
 	<math.h>
 	"rt_nonfinite.h"
 	"bbbox_voiceprintLookup.h"
@@ -497,4 +497,35 @@
 	"bbbox_voiceprintLookup_emxutil.h"
 	"generateScore.h"
 	"generateFeaturesForTesting.h"
+
+1549700974 source:/home/ben/bbbox_voiceprintLookup/main.c
+	"stdio.h"
+	"stdlib.h"
+	"rt_nonfinite.h"
+	"bbbox_voiceprintLookup.h"
+	"loadDatabaseFromFile.h"
+	"testWaveWithModels.h"
+	"main.h"
+	"bbbox_voiceprintLookup_terminate.h"
+	"bbbox_voiceprintLookup_initialize.h"
+
+1549735033 /home/ben/bbbox_voiceprintLookup/main.h
+	<stddef.h>
+	<stdlib.h>
+	"rtwtypes.h"
+	"bbbox_voiceprintLookup_types.h"
+
+1517894806 /home/ben/bbbox_voiceprintLookup/matrix.h
+	<stdlib.h>
+	<stddef.h>
+	"tmwtypes.h"
+	<stddef.h>
+	<tmwtypes.h>
+	<assert.h>
+
+1549622356 /home/ben/bbbox_voiceprintLookup/tmwtypes.h
+	<limits.h>
+	<stdbool.h>
+	<float.h>
+	<stddef.h>
 

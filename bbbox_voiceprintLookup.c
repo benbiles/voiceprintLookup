@@ -23,9 +23,11 @@
  */
 void bbbox_voiceprintLookup(const char *wavFileA[255], const char *wavFileB[255], const char *databaseFile[255], char voiceId[18])
  {
-  static cell_0 modelsDatabase;
-  cell_1 choices;
-  double scores[4];
+  static cell_0 modelsDatabase;  // voice print data from database file
+
+  static cell_1 choices;  // peoples voiceprint names extracted from database file
+
+  double scores[4];  // temp fix until we know what is does !
   int i;
 
   //debug print chunk
@@ -39,11 +41,11 @@ void bbbox_voiceprintLookup(const char *wavFileA[255], const char *wavFileB[255]
 
   // END
 
-  loadDatabaseFromFile(databaseFile, &modelsDatabase);
+  loadDatabaseFromFile(databaseFile, &modelsDatabase, &choices);
 
 
   /*  Get score  % don't use leading '/' for file paths here */
-  testWaveWithModels(wavFileA, wavFileB, &databaseFile, &choices, scores);
+  testWaveWithModels(wavFileA, wavFileB, &modelsDatabase, &choices, scores);
 
   /*  Print result */
   /* display ID'd person */
@@ -52,9 +54,10 @@ void bbbox_voiceprintLookup(const char *wavFileA[255], const char *wavFileB[255]
 
   /*  not sure if this is useful */
 
-   puts(choices.f1);
 
-// voiceId = choices.f1;  // ???
+   // can we print the scores?
+
+// voiceId = choices.fxyz;  // ???
 
 return voiceId;
   /*  final ID'd speaking person output by function */

@@ -33,8 +33,8 @@ typedef struct {
 #define typedef_cell_1
 
 typedef struct {
-  char f1[18];
-} cell_1;
+  char modelNames[1000][20]; // 2d array of modelNames from database / up to 1000 names
+  } cell_1;
 
 #endif                                 /*typedef_cell_1*/
 
@@ -101,6 +101,12 @@ typedef struct emxArray_real_T emxArray_real_T;
 
 #endif                                 /*typedef_emxArray_real_T*/
 #endif
+
+
+// BEN added this for testing memory
+
+
+
 
 /*
  * File trailer for bbbox_voiceprintLookup_types.h

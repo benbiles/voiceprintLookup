@@ -65,7 +65,7 @@
 #endif
 
 /*
- * The uchar_T, ushort_T and ulong_T types are needed for compilers which do 
+ * The uchar_T, ushort_T and ulong_T types are needed for compilers which do
  * not allow defines to be specified, at the command line, with spaces in them.
  */
 
@@ -76,7 +76,7 @@ typedef unsigned long       ulong_T;
 #if (defined(_MSC_VER) && _MSC_VER >= 1500)      \
     || defined(__x86_64__) || defined(__LP64__)  \
     || defined(__LCC64__)
-    
+
 typedef unsigned long long  ulonglong_T;
 #endif
 
@@ -95,11 +95,11 @@ typedef unsigned long long  ulonglong_T;
  * The compiler could be for an 8 bit embedded processor that
  * only had 8 bits per integer and 16 bits per long.
  * In that example, a 32 bit integer size is not even available.
- * This header file should be robust to that.   
+ * This header file should be robust to that.
  *
  * For the case of an 8 bit processor, the preprocessor
- * may be limited to 16 bit math like its target.  That limitation 
- * would mean that 32 bit comparisons can't be done accurately.  
+ * may be limited to 16 bit math like its target.  That limitation
+ * would mean that 32 bit comparisons can't be done accurately.
  * To increase robustness to this, comparisons are done against
  * smaller values first.  An inaccurate 32 bit comparison isn't
  * attempted if the 16 bit comparison has already succeeded.
@@ -107,7 +107,7 @@ typedef unsigned long long  ulonglong_T;
  * Limitations on preprocessor math can also be stricter than
  * for the target.  There are known cases where a compiler
  * targeting processors with 64 bit longs can't do accurate
- * preprocessor comparisons on more than 32 bits.  
+ * preprocessor comparisons on more than 32 bits.
  */
 
 /* Determine the number of bits for int, long, short, and char.
@@ -174,7 +174,7 @@ typedef unsigned long long  ulonglong_T;
  * to be the same size.  For example, on many embedded
  * processors, both shorts and ints are 16 bits.  On
  * processors used for workstations, it is quite common
- * for both int and long to be 32 bits.  
+ * for both int and long to be 32 bits.
  *   When there is more than one choice for typdef'ing
  * a portable type like int16_T or uint32_T, in
  * concept, it should not matter which choice is made.
@@ -283,10 +283,10 @@ typedef unsigned long long  ulonglong_T;
 #endif
 
 /* The following is used to emulate smaller integer types when only
- * larger types are available.  For example, compilers for TI C3x/C4x DSPs 
+ * larger types are available.  For example, compilers for TI C3x/C4x DSPs
  * define char and short to be 32 bits, so 8 and 16 bits are not directly
  * available.  This target is commonly used with RTW rapid prototyping.
- * Other DSPs define char to be 16 bits, so 8 bits is not directly 
+ * Other DSPs define char to be 16 bits, so 8 bits is not directly
  * available.
  */
 #ifndef INT8_T
@@ -658,12 +658,12 @@ typedef BYTE_T byte_T;
 #define  MIN_int8_T      ((int8_T)(-128))           /* -128 */
 #define  MAX_uint8_T     ((uint8_T)(255))           /* 255  */
 #define  MIN_uint8_T     ((uint8_T)(0))
-                           
+
 #define  MAX_int16_T     ((int16_T)(32767))         /* 32767 */
 #define  MIN_int16_T     ((int16_T)(-32768))        /* -32768 */
 #define  MAX_uint16_T    ((uint16_T)(65535))        /* 65535 */
 #define  MIN_uint16_T    ((uint16_T)(0))
-                           
+
 #define  MAX_int32_T     ((int32_T)(2147483647))    /* 2147483647  */
 #define  MIN_int32_T     ((int32_T)(-2147483647-1)) /* -2147483648 */
 #define  MAX_uint32_T    ((uint32_T)(0xFFFFFFFFU))  /* 4294967295  */
@@ -760,7 +760,7 @@ typedef boolean_T bool;
 #ifndef false
 #define false (0)
 #endif
-#ifndef true 
+#ifndef true
 #define true (1)
 #endif
 
@@ -768,8 +768,8 @@ typedef boolean_T bool;
 
 #endif /* !__cplusplus */
 
-/* 
- * This software assumes that the code is being compiled on a target using a 
+/*
+ * This software assumes that the code is being compiled on a target using a
  * 2's complement representation for signed integer values.
  */
 #if ((SCHAR_MIN + 1) != -SCHAR_MAX)

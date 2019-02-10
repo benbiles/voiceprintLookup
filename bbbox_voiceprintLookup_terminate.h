@@ -1,9 +1,4 @@
-/*
- * File: bbbox_voiceprintLookup_terminate.h
- *
- * MATLAB Coder version            : 4.0
- * C/C++ source code generated on  : 01-Feb-2019 16:34:19
- */
+/// File: bbbox_voiceprintLookup_terminate.h
 
 #ifndef BBBOX_VOICEPRINTLOOKUP_TERMINATE_H
 #define BBBOX_VOICEPRINTLOOKUP_TERMINATE_H

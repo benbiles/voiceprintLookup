@@ -1,9 +1,4 @@
-/*
- * File: sqrt.h
- *
- * MATLAB Coder version            : 4.0
- * C/C++ source code generated on  : 01-Feb-2019 16:34:19
- */
+/// File: sqrt.h
 
 #ifndef SQRT_H
 #define SQRT_H

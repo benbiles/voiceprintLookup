@@ -1,9 +1,4 @@
-/*
- * File: testWaveWithModels.h
- *
- * MATLAB Coder version            : 4.0
- * C/C++ source code generated on  : 01-Feb-2019 16:34:19
- */
+/// File: testWaveWithModels.h
 
 #ifndef TESTWAVEWITHMODELS_H
 #define TESTWAVEWITHMODELS_H
@@ -22,6 +17,8 @@ extern void testWaveWithModels(const char *fileNameWaveSeparated[255],const char
   double scores[4]);
 
 #endif
+
+extern char voiceId[20];
 
 /*
  * File trailer for testWaveWithModels.h

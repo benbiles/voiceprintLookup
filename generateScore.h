@@ -1,9 +1,4 @@
-/*
- * File: generateScore.h
- *
- * MATLAB Coder version            : 4.0
- * C/C++ source code generated on  : 01-Feb-2019 16:34:19
- */
+/// File: generateScore.h
 
 #ifndef GENERATESCORE_H
 #define GENERATESCORE_H

@@ -1,6 +1,4 @@
-/*
- * File: main.h
-*/
+/// File: main.h
 
 #ifndef MAIN_H
 #define MAIN_H
@@ -17,9 +15,11 @@ extern int main(int argc, char** argv[]);
 
 // testing file paths, use command argv normally
 
-#define wavFileA "/home/ben/test/newsound.wav"
-#define wavFileB "/home/ben/test/newsound.wav"
+#define wavFileA "/home/ben/test/ben.wav"
+#define wavFileB "/home/ben/test/ben.wav"
 #define databaseFile "/home/ben/test/modelDatabase.txt"
+
+extern char voiceId[20];
 
 #endif
 

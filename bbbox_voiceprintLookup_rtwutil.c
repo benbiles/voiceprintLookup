@@ -1,9 +1,4 @@
-/*
- * File: bbbox_voiceprintLookup_rtwutil.c
- *
- * MATLAB Coder version            : 4.0
- * C/C++ source code generated on  : 01-Feb-2019 16:34:19
- */
+/// File: bbbox_voiceprintLookup_rtwutil.c
 
 /* Include Files */
 #include <math.h>

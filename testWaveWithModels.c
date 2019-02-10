@@ -1,10 +1,4 @@
-/*
- * File: testWaveWithModels.c
- */
-
-/* Include Files */
-
-// #include <matrix.h>  // BEN included this for MX arrays ?
+/// File: testWaveWithModels.c
 
 #include <math.h>
 #include "rt_nonfinite.h"
@@ -15,7 +9,7 @@
 #include "generateScore.h"
 #include "generateFeaturesForTesting.h"
 
-
+// not needed
 
 // #include "fclose.h"
 // #include "fread.h"
@@ -36,14 +30,8 @@ void testWaveWithModels(const char *fileNameWaveSeparated[255], const char *file
                         const cell_0 *modelStructure, cell_1 *choices, double scores[4])
 {
 
-
   emxArray_real_T *xSeparated;
   emxArray_real_T *xPostfiltered;
-
-
- // xSeparated *mxCreateDoubleMatrix(5000000, 1, mxREAL);
- // xPostfiltered *mxCreateDoubleMatrix(5000000, 1, mxREAL);
-
 
   double value;
   int k;
@@ -51,24 +39,22 @@ void testWaveWithModels(const char *fileNameWaveSeparated[255], const char *file
   emxArray_real_T *activeFeatures;
   emxArray_boolean_T *activeMask;
 
-
-
   double w[1024];
   boolean_T noiseMask[24];
   double Hl[24];
   double Bl[24];
   double choicesIndex[4];
 
+  extern char voiceId[20];
 
   (void)fileNameWaveSeparated;  // what does this do ? matlab generated!
-
 
 
   emxInit_real_T(&xSeparated, 1);
   emxInit_real_T(&xPostfiltered, 1);
 
-  xSeparated->size[0]=5000000;  // max size of array, but i thought this was dynamic?
-  xPostfiltered->size[0]=5000000;
+  xSeparated->size[0]=2500000;  // max size of array, but i thought this was dynamic?
+  xPostfiltered->size[0]=2500000;
 
 
  // assign mem
@@ -90,26 +76,25 @@ void testWaveWithModels(const char *fileNameWaveSeparated[255], const char *file
     exit(1);
   }
 
-// end error checking of filenames parsed here..
+// end error checking
 
-// the matlab way of loading wav files !
-
-  /*  code generation does not support audioread matlab function */
+  /*  not support audioread matlab function */
   /*  Load separated wave */
   /*   xSeparated = audioread(fileNameWaveSeparated);  */
   /*  Load post-filtered wave */
   /*   xPostfiltered = audioread(fileNameWavePostfiltered); */
 
-  // fileid = fopen genertaed from matlab
+
+  // debug
+  // puts("in testWaveWithModels.c...  ");
+  // puts(fileNameWaveSeparated);
+  // puts(fileNameWavePostfiltered);
 
 
-  // We have no stripped off the PCM file header, is this done somewhere ? do we need to ?
-puts("opening wavA and wavB in testWaveWithModels.c...  ");
-puts(fileNameWaveSeparated);
-puts(fileNameWavePostfiltered);
+// impliment audioread, samples into memory.
 
+// strip off the PCM file header 44 bytes , should we used 46bytes or use a proper WAV lib?
 
-// impliment audioread from matlab , samples into memory.
 
 /// READ WAV A
 
@@ -139,8 +124,6 @@ fileid = fopen(fileNameWaveSeparated, "rb");
 // debug
 // for ( int i = 1; i <=10000; i++) {printf("%f \r\n",xSeparated->data[i]);}
 
-
-
 /// READ WAV B
 
 // fileid already defined
@@ -167,9 +150,6 @@ fileid = fopen(fileNameWavePostfiltered, "rb");
 
 //debug
   // for ( int i = 1; i <=10000; i++) { printf("%f \r\n",xPostfiltered->data[i]);}
-
-
-
 
 
   /*  Load models */
@@ -235,30 +215,36 @@ generateScore(modelStructure->f5, modelStructure->f6, modelStructure->f7,modelSt
 
   /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
 
+  // do we need this?
+
   emxFree_boolean_T(&activeMask);
   emxFree_real_T(&activeFeatures);
   emxFree_real_T(&xPostfiltered);
   emxFree_real_T(&xSeparated);
 
-
+  //end
 
 
 // printf ("%f \r\n",choicesIndex[1]);
 
 
 
-int bolox = choicesIndex[2];
+int lox = (int)choicesIndex[0];  // cast double to int for indexing modelNames.
 
-printf ("voiceprint ID detected.. %s \r\n",choices->modelNames[bolox]);  // 2d array modelNames in cell_1 strut
+lox = lox -1; // matlab / octave .M arrays starts at 1 not 0
 
-     //*********************************************************************************
-
-    // choices->f1(k) = modelsDatabase(&choicesIndex(k),1));   //  just change i to K , to simple !?
-
-     //******************************************************************************************
+// printf("%u",lox);
 
 
-  /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  */
+printf ("voiceprint detected.. %s \r\n",choices->modelNames[lox]);  // 2d array modelNames in cell_1 strut
+
+//*********************************************************************************
+
+
+voiceId[0] = choices->modelNames[lox];  // get database voiceprint name of winner!
+//*****************************************************************************************
+
+return;
 }
 
 /*

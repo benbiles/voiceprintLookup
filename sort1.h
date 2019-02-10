@@ -1,9 +1,4 @@
-/*
- * File: sort1.h
- *
- * MATLAB Coder version            : 4.0
- * C/C++ source code generated on  : 01-Feb-2019 16:34:19
- */
+/// File: sort1.h
 
 #ifndef SORT1_H
 #define SORT1_H

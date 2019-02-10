@@ -1,9 +1,4 @@
-/*
- * File: sortIdx.h
- *
- * MATLAB Coder version            : 4.0
- * C/C++ source code generated on  : 01-Feb-2019 16:34:19
- */
+/// File: sortIdx.h
 
 #ifndef SORTIDX_H
 #define SORTIDX_H

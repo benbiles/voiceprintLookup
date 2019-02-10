@@ -1,9 +1,3 @@
-/*
-* PUBLISHed header for the libmx library.
-*
-* Copyright 1984-2016 The MathWorks, Inc.
-* All Rights Reserved.
-*/
 
 /*
  * NOTE: The contents of this header are ultimately PUBLISHED in
@@ -77,7 +71,7 @@
 #define MW_LATEST_API_VERSION 800
 
 
-#define MW_REL2VER(A) A 
+#define MW_REL2VER(A) A
 
 #if defined(MX_COMPAT_32) || defined(MEX_DOUBLE_HANDLE)
 
@@ -126,7 +120,7 @@
 #error invalid MATLAB_MEXSRC_RELEASE definition
 #endif
 #endif
-      
+
 #if defined(MATLAB_DEFAULT_RELEASE)
 #define MW_DEFAULT_VERSION MW_REL2VER(MATLAB_DEFAULT_RELEASE)
 #if MW_DEFAULT_VERSION < MW_FIRST_API_VERSION
@@ -1162,7 +1156,7 @@ LIBMMWMATRIX_PUBLISHED_API_EXTERN_C void mxSetCell(mxArray *pa, mwIndex i, mxArr
 /*
  * Set pa[i][fieldnum] = value
  */
-LIBMMWMATRIX_PUBLISHED_API_EXTERN_C void 
+LIBMMWMATRIX_PUBLISHED_API_EXTERN_C void
 mxSetFieldByNumber(mxArray *pa, mwIndex i, int fieldnum, mxArray *value);
 
 /*

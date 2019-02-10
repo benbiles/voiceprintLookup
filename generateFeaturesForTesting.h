@@ -1,9 +1,4 @@
-/*
- * File: generateFeaturesForTesting.h
- *
- * MATLAB Coder version            : 4.0
- * C/C++ source code generated on  : 01-Feb-2019 16:34:19
- */
+/// File: generateFeaturesForTesting.h
 
 #ifndef GENERATEFEATURESFORTESTING_H
 #define GENERATEFEATURESFORTESTING_H

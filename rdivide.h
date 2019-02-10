@@ -1,9 +1,4 @@
-/*
- * File: rdivide.h
- *
- * MATLAB Coder version            : 4.0
- * C/C++ source code generated on  : 01-Feb-2019 16:34:19
- */
+/// File: rdivide.h
 
 #ifndef RDIVIDE_H
 #define RDIVIDE_H

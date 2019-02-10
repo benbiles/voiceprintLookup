@@ -1,9 +1,4 @@
-/*
- * File: loadDatabaseFromFile.c
- *
- * MATLAB Coder version            : 4.0
- * C/C++ source code generated on  : 01-Feb-2019 16:34:19
- */
+/// loadDatabaseFromFile.c
 
 /* Include Files */
 #include <stdio.h>
@@ -45,12 +40,8 @@ void loadDatabaseFromFile(const char *fileNameDatabase[255], cell_0 *varDatabase
   int iDim;
 
 // for debug
-   //debug print chunk
-  printf("were in loadDatabaseFromFile.c   ");
-
-  printf("   ");
-  puts(fileNameDatabase);
-  // END
+//  printf("were in loadDatabaseFromFile.c   ");
+//  puts(fileNameDatabase);
 
 
   /*  open fileNameDatabase in read mode */
@@ -59,9 +50,6 @@ void loadDatabaseFromFile(const char *fileNameDatabase[255], cell_0 *varDatabase
  if(fileid == NULL) {
       puts("Error opening file");
    }
-
- //
-
 
 // number of voiceprint models = nModels
 // centroids = 246
@@ -72,7 +60,10 @@ void loadDatabaseFromFile(const char *fileNameDatabase[255], cell_0 *varDatabase
 // this needs to be replaced with database, perhaps mysql or something faster?
 
 
-/// begin caveman code / load 1st 4 database entries
+/// begin caveman code / load 1st 4 database entries. if staying with txt file
+/// database then unlimited database scale, or at least large!
+/// choices->modelNames[x] is easy
+/// not sure how to change f5 f6 f7 etc yet in varDatabase->f5[iCentroid + (iDim << 8) ] = finalValue;
 
   //************************************************************************
 
@@ -98,7 +89,7 @@ char value[20];
         {
             buffer[len - 1] = 0;
         for (int i = 0; i<= len-1; i++) { nModels[i] = buffer[i];}
-            puts(nModels);
+            printf("\r\n number voiceprints in database... %s", nModels);
             break;
         }}
 
@@ -113,7 +104,7 @@ char value[20];
         {
             buffer[len - 1] = 0;
         for (int i = 0; i<= len-1; i++) { nCentroids[i] = buffer[i];}
-        puts(nCentroids);
+        printf("\r\n nCentroids... %s",nCentroids);
             break;
         }
     }
@@ -128,11 +119,17 @@ char value[20];
         {
             buffer[len - 1] = 0;
         for (int i = 0; i<= len-1; i++) { nDims[i] = buffer[i];}
-            puts(nDims);
+            printf("\r\n nDims... %s",nDims);
+            printf("\r\n");
             break;
         }}
 
+
+
+
 //*****************************************************************************************
+
+  printf("names in database.. \r\n \r\n");
 
         // FIRST NAME in data base
 
@@ -146,22 +143,20 @@ char value[20];
         {
             buffer[len - 1] = 0;
         for (int i = 0; i<= len-1; i++) {choices->modelNames[0][i] = buffer[i];}
-        puts(choices->modelNames[0]);
+        printf("%s \r\n",choices->modelNames[0]);
             break;
         }}
 
  // varDatabase->f1[1] = modelName;
 
-
  // values for person 1 in database
 
   memset(&varDatabase->f5[0], 0, 6144U * sizeof(double));  // why here ?
 
-
- for (iDim = 0; iDim < 24; iDim++) {
-
  // get the values in 256 loop
   for (iCentroid = 0; iCentroid < 256; iCentroid++) {
+
+        for (iDim = 0; iDim < 24; iDim++) {
 
            // GET value
   while (!feof(fileid)) {
@@ -182,10 +177,10 @@ char value[20];
   varDatabase->f5[iCentroid + (iDim << 8) ] = finalValue; //
 
   break;
-        }}
-      } // end loop 256
-  } // end 24 loop
-
+        }
+        }
+      }
+  }
 
   //********************************************************************
 
@@ -201,7 +196,7 @@ char value[20];
         {
             buffer[len - 1] = 0;
         for (int i = 0; i<= len-1; i++) { choices->modelNames[1][i] = buffer[i];}
-        puts(choices->modelNames[1]);
+        printf("%s \r\n",choices->modelNames[1]);
             break;
         }}
 
@@ -214,10 +209,12 @@ char value[20];
   memset(&varDatabase->f6[0], 0, 6144U * sizeof(double));
 
 
-   for (iDim = 0; iDim < 24; iDim++) {
+
 
  // get the values in 256 loop
   for (iCentroid = 0; iCentroid < 256; iCentroid++) {
+
+         for (iDim = 0; iDim < 24; iDim++) {
 
            // GET value
   while (!feof(fileid)) {
@@ -236,11 +233,11 @@ char value[20];
   char *ptr;
   double finalValue = strtod(value, &ptr);
   varDatabase->f6[iCentroid + (iDim << 8) ] = finalValue; //
-
   break;
-        }}
-      } // end loop 256
-  } // end 24 loop
+        }
+    }
+   }
+  }
 
 
 //********************************************************************************
@@ -257,7 +254,7 @@ char value[20];
         {
             buffer[len - 1] = 0;
         for (int i = 0; i<= len-1; i++) { choices->modelNames[2][i] = buffer[i];}
-        puts(choices->modelNames[2]);
+        printf("%s \r\n",choices->modelNames[2]);
             break;
         }}
 
@@ -268,10 +265,12 @@ char value[20];
 
   memset(&varDatabase->f7[0], 0, 6144U * sizeof(double));
 
-  for (iDim = 0; iDim < 24; iDim++) {
+
 
  // get the values in 256 loop
   for (iCentroid = 0; iCentroid < 256; iCentroid++) {
+
+        for (iDim = 0; iDim < 24; iDim++) {
 
            // GET value
   while (!feof(fileid)) {
@@ -292,9 +291,10 @@ char value[20];
   varDatabase->f7[iCentroid + (iDim << 8) ] = finalValue; //
 
   break;
-        }}
-      } // end loop 256
-  } // end 24 loop
+        }
+       }
+    }
+  }
 
   //*******************************************************************************************
 
@@ -310,7 +310,7 @@ char value[20];
         {
             buffer[len - 1] = 0;
         for (int i = 0; i<= len-1; i++) { choices->modelNames[3][i] = buffer[i];}
-        puts(choices->modelNames[3]);
+        printf("%s \r\n",choices->modelNames[3]);
             break;
         }}
 
@@ -323,10 +323,11 @@ char value[20];
 
 memset(&varDatabase->f8[0], 0, 6144U * sizeof(double));
 
-  for (iDim = 0; iDim < 24; iDim++) {
 
  // get the values in 256 loop
   for (iCentroid = 0; iCentroid < 256; iCentroid++) {
+
+         for (iDim = 0; iDim < 24; iDim++) {
 
            // GET value
   while (!feof(fileid)) {
@@ -347,16 +348,14 @@ memset(&varDatabase->f8[0], 0, 6144U * sizeof(double));
   varDatabase->f8[iCentroid + (iDim << 8) ] = finalValue; //
 
   break;
-        }}
-      } // end loop 256
-  } // end 24 loop
+        }
+      }
+    }
+  }
+printf("\r\n database file load success.. \r\n \r\n");
 
-
-
-
-  fclose(fileid);
+  fclose(fileid);  //finished with open database text file
 }
-
 
 
 

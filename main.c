@@ -1,6 +1,4 @@
-/*
- * File: main.c
- */
+/// File: main.c
 
 /* Include Files */
 #include "stdio.h"
@@ -27,7 +25,74 @@ static void main_bbbox_voiceprintLookup(void);
 static void main_loadDatabaseFromFile(void);
 static void main_testWaveWithModels(void);
 
+
+
 /* Function Definitions */
+
+char voiceId[20];
+
+/*
+ * Arguments    : int argc
+ *                const char * const argv[]
+ * Return Type  : int
+ */
+int main(int argc, char** argv[])
+{
+ // (void)argc;
+ // (void)argv;
+
+ printf("\r\n");
+ printf("welcome to bbbox_voiceprintLookup V0.1 :) \r\n \r\n");
+
+// enable this feature after debugging app
+
+ if ( argc < 4 ) {
+        printf("error...please supply nonfiltered.wav filtered.wav modelDatabase.txt \n");
+        printf(" \r\n");
+        printf("NOTE: point to the same file if there is not non-filtered and filtered wav file types \n");
+        printf("for now wav files should 48khz 16bit mono only \n");
+        puts("");
+     exit(-1); // error code -1
+     }
+
+// print command args in console
+ printf ("running with args...  \r\n");
+ for (int i=1; i<argc; ++i) {
+      printf(argv[i],"  \r\n");
+      puts("");
+    }
+
+  // Initialize the application.
+
+
+  bbbox_voiceprintLookup_initialize();
+
+  // Invoke the entry-point functions.
+  // set up emx arrays etc
+
+  main_loadDatabaseFromFile();
+  main_bbbox_voiceprintLookup();
+  main_testWaveWithModels();
+
+
+/// test file paths defined in main.h , testing only
+
+ // bbbox_voiceprintLookup(&wavFileA,&wavFileB,&databaseFile);
+
+/// uncomment this for for deployed app using passed paths of wavs and database from command line!
+
+
+  // main command voice print lookup with args passed from command line
+  bbbox_voiceprintLookup(argv[1],argv[2],argv[3]);
+
+  // printf("Id.. %s",voiceId);
+
+  return voiceId; // return final voiceId
+
+  bbbox_voiceprintLookup_terminate();  // Terminate application.
+
+}
+
 
 /*
  * Arguments    : char result[17]
@@ -183,93 +248,6 @@ static void main_testWaveWithModels(void)
  //  testWaveWithModels(cv5, cv6, &r1, &choices, scores);
 }
 
-/*
- * Arguments    : int argc
- *                const char * const argv[]
- * Return Type  : int
- */
-int main(int argc, char** argv[])
-{
- // (void)argc;
- // (void)argv;
-
-
- // inject path values for testing in debugger ...
-// argv[1] = '/home/ben/test/newsound.wav';
-// argv[2] = '/home/ben/test/newsound.wav';
-// argv[3] = '/home/ben/test/modelDatabase.txt';
-
-
-
-
- printf("\r\n");
- printf("welcome to bbbox_voiceprintLookup V0.1 \r\n");
- printf("\r\n");
- puts("");
-
-// enable this feature after debugging app
-
- if ( argc < 4 ) {
-        printf("error...please supply nonfiltered.wav filtered.wav modelDatabase.txt \n");
-        printf(" \r\n");
-        printf("NOTE: the 2 wav files can be the same if three is no filtered wav file \n");
-        printf("for now wav files should 48khz 16bit mono \n");
- puts("");
-     exit(-1); // error code -1
-     }
-
-
- printf ("running with...   ","\n");
-
-
-    for (int i=1; i<argc; ++i)
-    {
-      printf(argv[i],"\r\n");
-    }
-puts("");
-
-
-
-  /* Initialize the application.
-     You do not need to do this more than one time. */
-
-  bbbox_voiceprintLookup_initialize();
-
-  /* Invoke the entry-point functions.
-     You can call entry-point functions multiple times. */
-
-  main_loadDatabaseFromFile();
-  main_bbbox_voiceprintLookup();
-  main_testWaveWithModels();
-
-// MAIN DO SOMETHING!
-
-
-// loadDatabaseFromFile(db); ??
-
- int voiceId;
-
-
-// test file paths defined in main.h , testing only
-// bbbox_voiceprintLookup(&wavFileA,&wavFileB,&databaseFile,&voiceId);
-
-/// uncomment this for for deployed app using passed paths of wavs and database from command line!
-/// wavA, wavB, databasefile, not sure what voiceID is here yet !!! will delete if possible
-
- bbbox_voiceprintLookup(argv[1],argv[2],argv[3],&voiceId);
-
-
-// wanted to do this here but its at the end of bbbox_voiceprintLookup for now!
-
-// puts("newsound.wav is recognised as... \r\n");
-// puts(voiceId); // display ID'd person
-
-
- bbbox_voiceprintLookup_terminate();  // Terminate application.
-
-
-  return 0;
-}
 
 /*
  * File trailer for main.c

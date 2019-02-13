@@ -12,6 +12,7 @@
 /* Function Declarations */
 extern void loadDatabaseFromFile(const char *databaseFile[255], cell_0 *varDatabase,cell_1 *choices);
 
+
 #endif
 
 /*

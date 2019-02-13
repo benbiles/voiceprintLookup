@@ -1,9 +1,4 @@
-/*
- * File: generateFeaturesForTesting.c
- *
- * MATLAB Coder version            : 4.0
- * C/C++ source code generated on  : 01-Feb-2019 16:34:19
- */
+/// File: generateFeaturesForTesting.c
 
 /* Include Files */
 #include <math.h>
@@ -31,27 +26,6 @@
 /* Function Definitions */
 
 /*
- * *************************************************************************
- *  *                                                                       *
- *  * Project: WISS                                                         *
- *  * Author: François Grondin                                              *
- *  * Version: 1.0.0                                                        *
- *  * Date: 24/04/2013                                                      *
- *  *                                                                       *
- *  *************************************************************************
- *  *                                                                       *
- *  * License:                                                              *
- *  *                                                                       *
- *  * WISS is free software: you can redistribute it and/or modify it under *
- *  * the terms of the GNU General Public License as published by the Free  *
- *  * Software Foundation, either version 3 of the License, or (at your     *
- *  * option) any later version. WISS is distributed in the hope that it    *
- *  * will be useful, but WITHOUT ANY WARRANTY; without even the implied    *
- *  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See  *
- *  * the GNU General Public License for more details. You should have      *
- *  * received a copy of the GNU General Public License along with WISS.    *
- *  * If not, see http://www.gnu.org/licenses/.                             *
- *  *                                                                       *
  *  *************************************************************************
  *  *                                                                       *
  *  * Inputs:  xSeparated      Vector with separated audio stream           *
@@ -84,6 +58,7 @@
  *                double Bl[24]
  * Return Type  : void
  */
+
 void generateFeaturesForTesting(emxArray_real_T *xSeparated, emxArray_real_T
   *xPostfiltered, const double window[1024], emxArray_real_T *activeFeatures,
   emxArray_boolean_T *activeMask, boolean_T noiseMask[24], double Hl[24], double
@@ -94,8 +69,10 @@ void generateFeaturesForTesting(emxArray_real_T *xSeparated, emxArray_real_T
   int j;
   int coffset;
   emxArray_real_T *xSeparatedFrames;
+
   emxArray_real_T *xSeparatedPower;
   emxArray_real_T *b_xSeparatedPower;
+
   double b_window[1024];
   creal_T dcv0[1024];
   double dv0[1024];
@@ -127,23 +104,27 @@ void generateFeaturesForTesting(emxArray_real_T *xSeparated, emxArray_real_T
   /*  Parameters */
   /*  Normalize volumes */
 
-
   power(xSeparated, r0);
   y = mean(r0);
   b_sqrt(&y);
   j = xSeparated->size[0];
   emxEnsureCapacity_real_T(xSeparated, j);
+
   coffset = xSeparated->size[0];
-  for (j = 0; j < coffset; j++) {
+
+  for (j = 0; j < coffset; j++)
+    {
     xSeparated->data[j] /= y + 1.0E-99;
-  }
+    }
 
   power(xPostfiltered, r0);
   y = mean(r0);
   b_sqrt(&y);
   j = xPostfiltered->size[0];
   emxEnsureCapacity_real_T(xPostfiltered, j);
+
   coffset = xPostfiltered->size[0];
+
   for (j = 0; j < coffset; j++) {
     xPostfiltered->data[j] /= y + 1.0E-99;
   }
@@ -158,15 +139,21 @@ void generateFeaturesForTesting(emxArray_real_T *xSeparated, emxArray_real_T
 
   /*  Compute power of frames */
   j = xSeparatedPower->size[0] * xSeparatedPower->size[1];
+
   xSeparatedPower->size[0] = xSeparatedFrames->size[0];
   xSeparatedPower->size[1] = 1024;
-  emxEnsureCapacity_real_T1(xSeparatedPower, j);
-  coffset = xSeparatedFrames->size[0] * xSeparatedFrames->size[1];
-  for (j = 0; j < coffset; j++) {
-    xSeparatedPower->data[j] = 0.0 * xSeparatedFrames->data[j];
-  }
 
-  for (coffset = 0; coffset < xSeparatedFrames->size[0]; coffset++) {
+  emxEnsureCapacity_real_T1(xSeparatedPower, j);
+
+  coffset = xSeparatedFrames->size[0] * xSeparatedFrames->size[1];
+
+  for (j = 0; j < coffset; j++)
+    {
+    xSeparatedPower->data[j] = 0.0 * xSeparatedFrames->data[j];
+    }
+
+  for (coffset = 0; coffset < xSeparatedFrames->size[0]; coffset++)
+    {
     for (j = 0; j < 1024; j++) {
       b_window[j] = window[j] * xSeparatedFrames->data[coffset +
         xSeparatedFrames->size[0] * j];
@@ -175,9 +162,10 @@ void generateFeaturesForTesting(emxArray_real_T *xSeparated, emxArray_real_T
     fft(b_window, dcv0);
     b_abs(dcv0, dv0);
     b_power(dv0, dv1);
-    for (j = 0; j < 1024; j++) {
+    for (j = 0; j < 1024; j++)
+        {
       xSeparatedPower->data[coffset + xSeparatedPower->size[0] * j] = dv1[j];
-    }
+        }
   }
 
   emxInit_real_T(&b_xSeparatedPower, 1);
@@ -185,14 +173,16 @@ void generateFeaturesForTesting(emxArray_real_T *xSeparated, emxArray_real_T
   j = b_xSeparatedPower->size[0];
   b_xSeparatedPower->size[0] = coffset;
   emxEnsureCapacity_real_T(b_xSeparatedPower, j);
-  for (j = 0; j < coffset; j++) {
+  for (j = 0; j < coffset; j++)
+    {
     b_xSeparatedPower->data[j] = xSeparatedPower->data[j] * 0.0;
-  }
+    }
 
   coffset = b_xSeparatedPower->size[0];
-  for (j = 0; j < coffset; j++) {
+  for (j = 0; j < coffset; j++)
+    {
     xSeparatedPower->data[j] = b_xSeparatedPower->data[j];
-  }
+    }
 
   emxInit_real_T1(&xPostfilteredPower, 2);
 
@@ -427,7 +417,8 @@ void generateFeaturesForTesting(emxArray_real_T *xSeparated, emxArray_real_T
     sumMask->data[j] *= (double)filterMask->data[j];
   }
 
-  sort(sumMask);
+  sort(sumMask);  /// function in sort1.c
+
   j = filterMask->size[0] * filterMask->size[1];
   filterMask->size[0] = 1;
   filterMask->size[1] = sumMask->size[1];
@@ -563,9 +554,11 @@ void generateFeaturesForTesting(emxArray_real_T *xSeparated, emxArray_real_T
   }
 
   j = activeFeaturesMasked->size[0] * activeFeaturesMasked->size[1];
+
   activeFeaturesMasked->size[0] = activeFeatures->size[0];
   activeFeaturesMasked->size[1] = 24;
   emxEnsureCapacity_real_T1(activeFeaturesMasked, j);
+
   for (j = 0; j < 24; j++) {
     coffset = activeFeatures->size[0];
     for (m = 0; m < coffset; m++) {

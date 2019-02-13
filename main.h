@@ -15,11 +15,13 @@ extern int main(int argc, char** argv[]);
 
 // testing file paths, use command argv normally
 
-#define wavFileA "/home/ben/test/ben.wav"
-#define wavFileB "/home/ben/test/ben.wav"
+#define wavFileA "/home/ben/test/dave_weems10sec.wav"
+#define wavFileB "/home/ben/test/dave_weems10sec.wav"
 #define databaseFile "/home/ben/test/modelDatabase.txt"
 
 extern char voiceId[20];
+
+extern int nModelNumber; // number of models in database
 
 #endif
 

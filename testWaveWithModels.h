@@ -14,7 +14,7 @@
 /* Function Declarations */
 extern void testWaveWithModels(const char *fileNameWaveSeparated[255],const char
   *fileNameWavePostfiltered[255], const cell_0 *modelStructure, cell_1 *choices,
-  double scores[4]);
+  double scores[1000]);
 
 #endif
 

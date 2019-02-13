@@ -10,7 +10,8 @@
 #include "bbbox_voiceprintLookup_types.h"
 
 /* Function Declarations */
-extern void bbbox_voiceprintLookup(const char *wavFileA[255], const char *wavFileB[255], const char *databaseFile[255]);
+extern void bbbox_voiceprintLookup(const char *wavFileA[255], const char *wavFileB[255],
+                                   const char *databaseFile[255]);
 
 
 extern char voiceId[20];

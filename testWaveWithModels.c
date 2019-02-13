@@ -27,7 +27,7 @@
  * Return Type  : void
  */
 void testWaveWithModels(const char *fileNameWaveSeparated[255], const char *fileNameWavePostfiltered[255],
-                        const cell_0 *modelStructure, cell_1 *choices, double scores[4])
+                        const cell_0 *modelStructure, cell_1 *choices, double scores[1000])
 {
 
   emxArray_real_T *xSeparated;
@@ -43,7 +43,7 @@ void testWaveWithModels(const char *fileNameWaveSeparated[255], const char *file
   boolean_T noiseMask[24];
   double Hl[24];
   double Bl[24];
-  double choicesIndex[4];
+  double choicesIndex[1000];
 
   extern char voiceId[20];
 
@@ -52,15 +52,6 @@ void testWaveWithModels(const char *fileNameWaveSeparated[255], const char *file
 
   emxInit_real_T(&xSeparated, 1);
   emxInit_real_T(&xPostfiltered, 1);
-
-  xSeparated->size[0]=2500000;  // max size of array, but i thought this was dynamic?
-  xPostfiltered->size[0]=2500000;
-
-
- // assign mem
-
- emxEnsureCapacity_real_T((emxArray_real_T *)xSeparated,0);
- emxEnsureCapacity_real_T((emxArray_real_T *)xPostfiltered,0);
 
 
   // re-write of the error checking..
@@ -90,6 +81,59 @@ void testWaveWithModels(const char *fileNameWaveSeparated[255], const char *file
   // puts(fileNameWaveSeparated);
   // puts(fileNameWavePostfiltered);
 
+// file desciptor for reading wav files
+FILE *fileid =NULL;
+
+
+
+
+/// find size of wav file A
+int wavSizeA = 0; // 512 samples per cell
+signed short junkA;
+
+fileid = fopen(fileNameWaveSeparated, "rb"); // error check
+  if(fileid == NULL) {
+      puts("Error determining wav file A size..");
+      exit(1);
+    }
+  while (fread(&junkA, sizeof(signed short) ,1 , fileid) == 1) { wavSizeA++;}
+  fclose(fileid);
+
+  /// find size of wav file B
+int wavSizeB = 0; // 512 samples per cell
+signed short junkB;
+
+fileid = fopen(fileNameWavePostfiltered, "rb"); // error check
+  if(fileid == NULL) {
+      puts("Error determining wav file B size..");
+      exit(1);
+    }
+  while (fread(&junkB, sizeof(signed short) ,1 , fileid) == 1) { wavSizeB++;}
+  fclose(fileid);
+
+ if ( wavSizeA >= 15000000 ) {
+  printf("\r\n WAV size to long EXIT... avoiding being a memory hog ");
+  exit(1);
+ }
+
+
+ if ( wavSizeA == wavSizeB )
+ {
+// dynamically allocate amx array memory size according to wav file size.
+ xSeparated->size[0]=wavSizeA+1000;  //
+ xPostfiltered->size[0]=wavSizeB+1000;
+  // assign mem
+ emxEnsureCapacity_real_T((emxArray_real_T *)xSeparated,0);
+ emxEnsureCapacity_real_T((emxArray_real_T *)xPostfiltered,0);
+
+printf("\r\n dynamically allocated memory file1.. %u",wavSizeA,"\r\n");
+printf("\r\n dynamically allocated memory file2.. %u",wavSizeB,"\r\n");
+ }
+else
+    {
+    printf("\r\n ERROR! please input wav pairs WaveSeparated & WavePostfiltered or use path to same wav file \r\n");
+    exit(0);
+     }
 
 // impliment audioread, samples into memory.
 
@@ -97,12 +141,8 @@ void testWaveWithModels(const char *fileNameWaveSeparated[255], const char *file
 
 
 /// READ WAV A
-
-FILE *fileid =NULL;
-signed short ssA;
-
 int buffCountA = 0; // 512 samples per cell
-
+signed short ssA;
 
 fileid = fopen(fileNameWaveSeparated, "rb");
  // error check
@@ -110,14 +150,12 @@ fileid = fopen(fileNameWaveSeparated, "rb");
       puts("Error opening wav file A..");
       exit(1);
     }
-
   fseek (fileid,44,SEEK_SET); // drop the wav header we don't need it
   while (fread(&ssA, sizeof(signed short) ,1 , fileid) == 1)
     {
     xSeparated->data[buffCountA]=((double)ssA) *(signed)0xFFFFFFFF; // wav sample signed short to double
     buffCountA++;
      }
-
   fclose(fileid);
 
 
@@ -171,8 +209,6 @@ fileid = fopen(fileNameWavePostfiltered, "rb");
   /*   */
   /*  Empty frame */
 
-   /*  BEN added definition of value here for C code generation */
-  /// float value = 0.0;  // should i define this as a floating point ? ?????
 value = 0.0;
 
   for (k = 0; k < 1024; k++) {
@@ -202,21 +238,21 @@ value = 0.0;
   emxInit_real_T1(&activeFeatures, 2);
   emxInit_boolean_T(&activeMask, 2);
 
+printf("\r\n scan features.. \r\n");
   /*  Generate features  */
 generateFeaturesForTesting(xSeparated, xPostfiltered, w, activeFeatures, activeMask, noiseMask, Hl, Bl);
 
+printf("\r\n scan voiceprints.. \r\n");
 
-  /*  Generate score */
+  ///  Generate score
 generateScore(modelStructure->f5, modelStructure->f6, modelStructure->f7,modelStructure->f8,
+              modelStructure->f9, modelStructure->f10, modelStructure->f11,modelStructure->f12,
+              modelStructure->f13, modelStructure->f14,
               activeFeatures, activeMask, noiseMask, Hl, Bl, choicesIndex, scores);
 
 
-  /*  write this in C from code gen */
 
-  /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
-
-  // do we need this?
-
+  // Clear memory before finalise results and exit program.
   emxFree_boolean_T(&activeMask);
   emxFree_real_T(&activeFeatures);
   emxFree_real_T(&xPostfiltered);
@@ -225,21 +261,17 @@ generateScore(modelStructure->f5, modelStructure->f6, modelStructure->f7,modelSt
   //end
 
 
-// printf ("%f \r\n",choicesIndex[1]);
-
-
+// PRINT FINAL VOICE PRINT!!!
 
 int lox = (int)choicesIndex[0];  // cast double to int for indexing modelNames.
 
-lox = lox -1; // matlab / octave .M arrays starts at 1 not 0
+lox = lox; // matlab / octave .M arrays starts at 1 not 0
 
 // printf("%u",lox);
 
-
-printf ("voiceprint detected.. %s \r\n",choices->modelNames[lox]);  // 2d array modelNames in cell_1 strut
+printf ("\r\n \r\n Voiceprint Detected.. %s \r\n",choices->modelNames[lox]);  // 2d array modelNames in cell_1 strut
 
 //*********************************************************************************
-
 
 voiceId[0] = choices->modelNames[lox];  // get database voiceprint name of winner!
 //*****************************************************************************************

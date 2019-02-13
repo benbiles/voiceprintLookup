@@ -9,6 +9,8 @@
 #include "rtwtypes.h"
 #include "bbbox_voiceprintLookup_types.h"
 
+extern int nModelNumber; // number of models in database
+
 /* Function Declarations */
 extern void b_merge(int idx[4], double x[4], int offset, int np, int nq, int
                     iwork[4], double xwork[4]);

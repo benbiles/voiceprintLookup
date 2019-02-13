@@ -31,6 +31,8 @@ static void main_testWaveWithModels(void);
 
 char voiceId[20];
 
+int nModelNumber; // number of models in database
+
 /*
  * Arguments    : int argc
  *                const char * const argv[]
@@ -41,17 +43,14 @@ int main(int argc, char** argv[])
  // (void)argc;
  // (void)argv;
 
- printf("\r\n");
- printf("welcome to bbbox_voiceprintLookup V0.1 :) \r\n \r\n");
+ printf("\r\n welcome to BBbox voiceLookup V0.1 :) \r\n");
 
 // enable this feature after debugging app
 
  if ( argc < 4 ) {
-        printf("error...please supply nonfiltered.wav filtered.wav modelDatabase.txt \n");
-        printf(" \r\n");
-        printf("NOTE: point to the same file if there is not non-filtered and filtered wav file types \n");
-        printf("for now wav files should 48khz 16bit mono only \n");
-        puts("");
+        printf("error...please supply nonfiltered.wav filtered.wav modelDatabase.txt \r\n");
+        printf("NOTE: point to the same file if there is not non-filtered and filtered wav file types \r\n");
+        printf("for now wav files should 48khz 16bit mono only \r\n");
      exit(-1); // error code -1
      }
 
@@ -63,8 +62,6 @@ int main(int argc, char** argv[])
     }
 
   // Initialize the application.
-
-
   bbbox_voiceprintLookup_initialize();
 
   // Invoke the entry-point functions.
@@ -77,13 +74,14 @@ int main(int argc, char** argv[])
 
 /// test file paths defined in main.h , testing only
 
- // bbbox_voiceprintLookup(&wavFileA,&wavFileB,&databaseFile);
+///  bbbox_voiceprintLookup(&wavFileA,&wavFileB,&databaseFile);
 
 /// uncomment this for for deployed app using passed paths of wavs and database from command line!
 
 
   // main command voice print lookup with args passed from command line
-  bbbox_voiceprintLookup(argv[1],argv[2],argv[3]);
+
+   bbbox_voiceprintLookup(argv[1],argv[2],argv[3]);
 
   // printf("Id.. %s",voiceId);
 
@@ -157,10 +155,17 @@ static void argInit_cell_0(cell_0 *result)
   result->f2 = argInit_real_T();
   result->f3 = argInit_real_T();
   result->f4 = argInit_real_T();
+
   argInit_256x24_real_T(result->f5);
   argInit_256x24_real_T(result->f6);
   argInit_256x24_real_T(result->f7);
   argInit_256x24_real_T(result->f8);
+  argInit_256x24_real_T(result->f9);
+  argInit_256x24_real_T(result->f10);
+  argInit_256x24_real_T(result->f11);
+  argInit_256x24_real_T(result->f12);
+  argInit_256x24_real_T(result->f13);
+  argInit_256x24_real_T(result->f14);
 }
 
 /*
@@ -234,7 +239,7 @@ static void main_testWaveWithModels(void)
   char cv6[255];
   static cell_0 r1;
   cell_1 choices;
-  double scores[4];
+  double scores[1000];
 
   /* Initialize function 'testWaveWithModels' input arguments. */
   /* Initialize function input argument 'fileNameWaveSeparated'. */

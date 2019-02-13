@@ -9,8 +9,14 @@
 #include "rtwtypes.h"
 #include "bbbox_voiceprintLookup_types.h"
 
+extern int nModelNumber; // number of models in database
+
 /* Function Declarations */
-extern void b_sort(double x[4], int idx[4]);
+
+void get_winner(double x[1000], int idx[1000]);
+
+extern void b_sort(double x[1000], int idx[1000]);
+
 extern void sort(emxArray_real_T *x);
 
 #endif

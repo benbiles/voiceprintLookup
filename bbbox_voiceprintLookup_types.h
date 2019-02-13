@@ -20,6 +20,12 @@ typedef struct {
   double f6[6144];
   double f7[6144];
   double f8[6144];
+  double f9[6144];
+  double f10[6144];
+  double f11[6144];
+  double f12[6144];
+  double f13[6144];
+  double f14[6144];
 } cell_0;
 
 #endif                                 /*typedef_cell_0*/

@@ -54,10 +54,8 @@ int index = 0;
 
 
 
-
-
- /// horible bubble sort? auto generated code
- /// maybe it easier to write again from scratch here?
+ /// horible bubble sort? using get_winner function instead for know as only need winner.
+ // auto generated kept as ref..
 
 
 void b_sortOLD(double x[1000], int idx[1000])

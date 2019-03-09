@@ -14,23 +14,23 @@
 
 1549807582 /home/ben/bbbox_voiceprintLookup/rtwtypes.h
 
-1549900281 /home/ben/bbbox_voiceprintLookup/bbbox_voiceprintLookup.h
+1552139660 /home/ben/bbbox_voiceprintLookup/bbbox_voiceprintLookup.h
 	<stddef.h>
 	<stdlib.h>
 	"rtwtypes.h"
 	"bbbox_voiceprintLookup_types.h"
 
-1549900027 /home/ben/bbbox_voiceprintLookup/bbbox_voiceprintLookup_types.h
+1550652710 /home/ben/bbbox_voiceprintLookup/bbbox_voiceprintLookup_types.h
 	"rtwtypes.h"
 	<stdio.h>
 
-1549894719 /home/ben/bbbox_voiceprintLookup/loadDatabaseFromFile.h
+1552065401 /home/ben/bbbox_voiceprintLookup/loadDatabaseFromFile.h
 	<stddef.h>
 	<stdlib.h>
 	"rtwtypes.h"
 	"bbbox_voiceprintLookup_types.h"
 
-1549900281 /home/ben/bbbox_voiceprintLookup/testWaveWithModels.h
+1552067831 /home/ben/bbbox_voiceprintLookup/testWaveWithModels.h
 	<stddef.h>
 	<stdlib.h>
 	"rtwtypes.h"
@@ -42,11 +42,12 @@
 	"rtwtypes.h"
 	"bbbox_voiceprintLookup_types.h"
 
-1549951752 source:/home/ben/bbbox_voiceprintLookup/bbbox_voiceprintLookup.c
+1552142340 source:/home/ben/bbbox_voiceprintLookup/bbbox_voiceprintLookup.c
 	"rt_nonfinite.h"
 	"bbbox_voiceprintLookup.h"
 	"loadDatabaseFromFile.h"
 	"testWaveWithModels.h"
+	"main.h"
 
 1549807126 source:/home/ben/bbbox_voiceprintLookup/bbbox_voiceprintLookup_data.c
 	"rt_nonfinite.h"
@@ -248,7 +249,7 @@
 	"rtwtypes.h"
 	"bbbox_voiceprintLookup_types.h"
 
-1549953506 source:/home/ben/bbbox_voiceprintLookup/generateFeaturesForTesting.c
+1551336215 source:/home/ben/bbbox_voiceprintLookup/generateFeaturesForTesting.c
 	<math.h>
 	<string.h>
 	"rt_nonfinite.h"
@@ -326,7 +327,7 @@
 	"testWaveWithModels.h"
 	"generateFilterbank.h"
 
-1550064333 source:/home/ben/bbbox_voiceprintLookup/generateScore.c
+1552123644 source:/home/ben/bbbox_voiceprintLookup/generateScore.c
 	<math.h>
 	"rt_nonfinite.h"
 	"bbbox_voiceprintLookup.h"
@@ -341,7 +342,7 @@
 	"log.h"
 	"exp.h"
 
-1549900353 /home/ben/bbbox_voiceprintLookup/generateScore.h
+1551340716 /home/ben/bbbox_voiceprintLookup/generateScore.h
 	<stddef.h>
 	<stdlib.h>
 	"rtwtypes.h"
@@ -387,7 +388,7 @@
 	"_coder_bbbox_voiceprintLookup_api.h"
 	"_coder_bbbox_voiceprintLookup_mex.h"
 
-1549893454 source:/home/ben/bbbox_voiceprintLookup/loadDatabaseFromFile.c
+1552120629 source:/home/ben/bbbox_voiceprintLookup/loadDatabaseFromFile.c
 	<stdio.h>
 	<stdlib.h>
 	<math.h>
@@ -398,6 +399,7 @@
 	"testWaveWithModels.h"
 	"fclose.h"
 	"fileManager.h"
+	"main.h"
 
 1549006469 source:/home/ben/bbbox_voiceprintLookup/log.c
 	<math.h>
@@ -451,7 +453,7 @@
 1549006470 source:/home/ben/bbbox_voiceprintLookup/rtGetNaN.c
 	"rtGetNaN.h"
 
-1550065050 source:/home/ben/bbbox_voiceprintLookup/sort1.c
+1551337061 source:/home/ben/bbbox_voiceprintLookup/sort1.c
 	"rt_nonfinite.h"
 	"bbbox_voiceprintLookup.h"
 	"loadDatabaseFromFile.h"
@@ -488,7 +490,7 @@
 	"testWaveWithModels.h"
 	"sum.h"
 
-1550064428 source:/home/ben/bbbox_voiceprintLookup/testWaveWithModels.c
+1552143900 source:/home/ben/bbbox_voiceprintLookup/testWaveWithModels.c
 	<math.h>
 	"rt_nonfinite.h"
 	"bbbox_voiceprintLookup.h"
@@ -497,8 +499,9 @@
 	"bbbox_voiceprintLookup_emxutil.h"
 	"generateScore.h"
 	"generateFeaturesForTesting.h"
+	"main.h"
 
-1549980455 source:/home/ben/bbbox_voiceprintLookup/main.c
+1552144449 source:/home/ben/bbbox_voiceprintLookup/main.c
 	"stdio.h"
 	"stdlib.h"
 	"rt_nonfinite.h"
@@ -508,8 +511,15 @@
 	"main.h"
 	"bbbox_voiceprintLookup_terminate.h"
 	"bbbox_voiceprintLookup_initialize.h"
+	<sys/inotify.h>
+	<unistd.h>
+	<errno.h>
+	<string.h>
+	<sys/types.h>
+	<unistd.h>
+	<sys/wait.h>
 
-1550064594 /home/ben/bbbox_voiceprintLookup/main.h
+1552141336 /home/ben/bbbox_voiceprintLookup/main.h
 	<stddef.h>
 	<stdlib.h>
 	"rtwtypes.h"

@@ -71,16 +71,20 @@ void generateFeaturesForTesting(emxArray_real_T *xSeparated, emxArray_real_T
   emxArray_real_T *xSeparatedFrames;
 
   emxArray_real_T *xSeparatedPower;
+
   emxArray_real_T *b_xSeparatedPower;
+  emxArray_real_T *xPostfilteredPower;
+
+  emxArray_real_T *separatedFeatures;
+
 
   double b_window[1024];
   creal_T dcv0[1024];
   double dv0[1024];
   double dv1[1024];
-  emxArray_real_T *xPostfilteredPower;
   creal_T dcv1[1024];
   double dv2[1024];
-  emxArray_real_T *separatedFeatures;
+
   static double H_m[24576];
   int m;
   int boffset;
@@ -90,11 +94,15 @@ void generateFeaturesForTesting(emxArray_real_T *xSeparated, emxArray_real_T
   int aoffset;
   emxArray_real_T *activeFeaturesMasked;
   emxArray_real_T *b_activeFeaturesMasked;
+
   emxArray_boolean_T *maskFeatures;
   emxArray_boolean_T *x;
+
   emxArray_real_T *sumMask;
   emxArray_boolean_T *filterMask;
+
   emxArray_real_T *indexesSort;
+
   double activeFeaturesMean[24];
   emxArray_boolean_T *b_x;
   double noiseDen[24];
@@ -102,32 +110,30 @@ void generateFeaturesForTesting(emxArray_real_T *xSeparated, emxArray_real_T
   emxInit_real_T(&r0, 1);
 
   /*  Parameters */
-  /*  Normalize volumes */
+  /*  Normalize xSeparated volumes */
 
   power(xSeparated, r0);
   y = mean(r0);
   b_sqrt(&y);
   j = xSeparated->size[0];
   emxEnsureCapacity_real_T(xSeparated, j);
-
   coffset = xSeparated->size[0];
+  for (j = 0; j < coffset; j++) { xSeparated->data[j] /= y + 1.0E-99;}
 
-  for (j = 0; j < coffset; j++)
-    {
-    xSeparated->data[j] /= y + 1.0E-99;
-    }
+    /*  Parameters */
+  /*  Normalize xPostfiltered volumes */
 
   power(xPostfiltered, r0);
   y = mean(r0);
   b_sqrt(&y);
   j = xPostfiltered->size[0];
   emxEnsureCapacity_real_T(xPostfiltered, j);
-
   coffset = xPostfiltered->size[0];
+  for (j = 0; j < coffset; j++) { xPostfiltered->data[j] /= y + 1.0E-99;}
 
-  for (j = 0; j < coffset; j++) {
-    xPostfiltered->data[j] /= y + 1.0E-99;
-  }
+
+
+
 
   emxInit_real_T1(&xSeparatedFrames, 2);
   emxInit_real_T1(&xSeparatedPower, 2);
@@ -147,25 +153,19 @@ void generateFeaturesForTesting(emxArray_real_T *xSeparated, emxArray_real_T
 
   coffset = xSeparatedFrames->size[0] * xSeparatedFrames->size[1];
 
-  for (j = 0; j < coffset; j++)
-    {
-    xSeparatedPower->data[j] = 0.0 * xSeparatedFrames->data[j];
-    }
+  for (j = 0; j < coffset; j++) { xSeparatedPower->data[j] = 0.0 * xSeparatedFrames->data[j];}
 
   for (coffset = 0; coffset < xSeparatedFrames->size[0]; coffset++)
     {
     for (j = 0; j < 1024; j++) {
       b_window[j] = window[j] * xSeparatedFrames->data[coffset +
         xSeparatedFrames->size[0] * j];
-    }
+        }
 
     fft(b_window, dcv0);
     b_abs(dcv0, dv0);
     b_power(dv0, dv1);
-    for (j = 0; j < 1024; j++)
-        {
-      xSeparatedPower->data[coffset + xSeparatedPower->size[0] * j] = dv1[j];
-        }
+    for (j = 0; j < 1024; j++) { xSeparatedPower->data[coffset + xSeparatedPower->size[0] * j] = dv1[j];}
   }
 
   emxInit_real_T(&b_xSeparatedPower, 1);
@@ -173,16 +173,16 @@ void generateFeaturesForTesting(emxArray_real_T *xSeparated, emxArray_real_T
   j = b_xSeparatedPower->size[0];
   b_xSeparatedPower->size[0] = coffset;
   emxEnsureCapacity_real_T(b_xSeparatedPower, j);
-  for (j = 0; j < coffset; j++)
-    {
-    b_xSeparatedPower->data[j] = xSeparatedPower->data[j] * 0.0;
-    }
+
+  for (j = 0; j < coffset; j++){ b_xSeparatedPower->data[j] = xSeparatedPower->data[j] * 0.0;}
 
   coffset = b_xSeparatedPower->size[0];
-  for (j = 0; j < coffset; j++)
-    {
-    xSeparatedPower->data[j] = b_xSeparatedPower->data[j];
-    }
+
+  for (j = 0; j < coffset; j++) { xSeparatedPower->data[j] = b_xSeparatedPower->data[j]; }
+
+
+
+
 
   emxInit_real_T1(&xPostfilteredPower, 2);
 
@@ -198,11 +198,11 @@ void generateFeaturesForTesting(emxArray_real_T *xSeparated, emxArray_real_T
   emxEnsureCapacity_real_T1(xPostfilteredPower, j);
   coffset = xSeparatedFrames->size[0] * xSeparatedFrames->size[1];
   emxFree_real_T(&r0);
-  for (j = 0; j < coffset; j++) {
-    xPostfilteredPower->data[j] = 0.0 * xSeparatedFrames->data[j];
-  }
+
+  for (j = 0; j < coffset; j++) { xPostfilteredPower->data[j] = 0.0 * xSeparatedFrames->data[j]; }
 
   for (coffset = 0; coffset < xSeparatedFrames->size[0]; coffset++) {
+
     for (j = 0; j < 1024; j++) {
       b_window[j] = window[j] * xSeparatedFrames->data[coffset +
         xSeparatedFrames->size[0] * j];
@@ -222,14 +222,12 @@ void generateFeaturesForTesting(emxArray_real_T *xSeparated, emxArray_real_T
   j = b_xSeparatedPower->size[0];
   b_xSeparatedPower->size[0] = coffset;
   emxEnsureCapacity_real_T(b_xSeparatedPower, j);
-  for (j = 0; j < coffset; j++) {
-    b_xSeparatedPower->data[j] = xPostfilteredPower->data[j] * 0.0;
-  }
+
+  for (j = 0; j < coffset; j++) { b_xSeparatedPower->data[j] = xPostfilteredPower->data[j] * 0.0; }
 
   coffset = b_xSeparatedPower->size[0];
-  for (j = 0; j < coffset; j++) {
-    xPostfilteredPower->data[j] = b_xSeparatedPower->data[j];
-  }
+
+  for (j = 0; j < coffset; j++) { xPostfilteredPower->data[j] = b_xSeparatedPower->data[j]; }
 
   emxInit_real_T1(&separatedFeatures, 2);
 
@@ -242,12 +240,11 @@ void generateFeaturesForTesting(emxArray_real_T *xSeparated, emxArray_real_T
   separatedFeatures->size[0] = xSeparatedPower->size[0];
   separatedFeatures->size[1] = 24;
   emxEnsureCapacity_real_T1(separatedFeatures, j);
+
   for (j = 0; j < 24; j++) {
     coffset = j * m;
     boffset = j << 10;
-    for (i = 1; i <= m; i++) {
-      separatedFeatures->data[(coffset + i) - 1] = 0.0;
-    }
+    for (i = 1; i <= m; i++) { separatedFeatures->data[(coffset + i) - 1] = 0.0; }
 
     for (k = 0; k < 1024; k++) {
       if (H_m[boffset + k] != 0.0) {
@@ -265,9 +262,8 @@ void generateFeaturesForTesting(emxArray_real_T *xSeparated, emxArray_real_T
   j = separatedFeatures->size[0] * separatedFeatures->size[1];
   separatedFeatures->size[1] = 24;
   emxEnsureCapacity_real_T1(separatedFeatures, j);
-  for (j = 0; j <= coffset; j++) {
-    separatedFeatures->data[j] += 1.0E-10;
-  }
+
+  for (j = 0; j <= coffset; j++) { separatedFeatures->data[j] += 1.0E-10; }
 
   emxInit_real_T1(&b_y, 2);
   b_log(separatedFeatures);
@@ -278,6 +274,7 @@ void generateFeaturesForTesting(emxArray_real_T *xSeparated, emxArray_real_T
   b_y->size[0] = xPostfilteredPower->size[0];
   b_y->size[1] = 24;
   emxEnsureCapacity_real_T1(b_y, j);
+
   for (j = 0; j < 24; j++) {
     coffset = j * m;
     boffset = j << 10;
@@ -303,24 +300,23 @@ void generateFeaturesForTesting(emxArray_real_T *xSeparated, emxArray_real_T
   j = activeFeaturesMasked->size[0] * activeFeaturesMasked->size[1];
   activeFeaturesMasked->size[0] = separatedFeatures->size[0];
   activeFeaturesMasked->size[1] = 24;
+
   emxEnsureCapacity_real_T1(activeFeaturesMasked, j);
+
   coffset = separatedFeatures->size[0] * separatedFeatures->size[1];
-  for (j = 0; j < coffset; j++) {
-    activeFeaturesMasked->data[j] = separatedFeatures->data[j];
-  }
+
+  for (j = 0; j < coffset; j++)   { activeFeaturesMasked->data[j] = separatedFeatures->data[j]; }
 
   coffset = separatedFeatures->size[0] * 24;
-  for (k = 0; k < coffset; k++) {
-    activeFeaturesMasked->data[k] = exp(activeFeaturesMasked->data[k]);
-  }
+
+  for (k = 0; k < coffset; k++) { activeFeaturesMasked->data[k] = exp(activeFeaturesMasked->data[k]); }
 
   coffset = b_y->size[0] * b_y->size[1] - 1;
   j = b_y->size[0] * b_y->size[1];
   b_y->size[1] = 24;
   emxEnsureCapacity_real_T1(b_y, j);
-  for (j = 0; j <= coffset; j++) {
-    b_y->data[j] += 1.0E-20;
-  }
+
+  for (j = 0; j <= coffset; j++) { b_y->data[j] += 1.0E-20;}
 
   emxInit_real_T1(&b_activeFeaturesMasked, 2);
   b_log(b_y);
@@ -328,11 +324,11 @@ void generateFeaturesForTesting(emxArray_real_T *xSeparated, emxArray_real_T
   j = b_activeFeaturesMasked->size[0] * b_activeFeaturesMasked->size[1];
   b_activeFeaturesMasked->size[0] = activeFeaturesMasked->size[0];
   b_activeFeaturesMasked->size[1] = 24;
+
   emxEnsureCapacity_real_T1(b_activeFeaturesMasked, j);
   coffset = activeFeaturesMasked->size[0] * activeFeaturesMasked->size[1];
-  for (j = 0; j < coffset; j++) {
-    b_activeFeaturesMasked->data[j] = activeFeaturesMasked->data[j] + 1.0E-99;
-  }
+
+  for (j = 0; j < coffset; j++) { b_activeFeaturesMasked->data[j] = activeFeaturesMasked->data[j] + 1.0E-99;}
 
   emxInit_boolean_T(&maskFeatures, 2);
   rdivide(b_y, b_activeFeaturesMasked, activeFeaturesMasked);
@@ -342,9 +338,8 @@ void generateFeaturesForTesting(emxArray_real_T *xSeparated, emxArray_real_T
   emxEnsureCapacity_boolean_T(maskFeatures, j);
   coffset = activeFeaturesMasked->size[0] * activeFeaturesMasked->size[1];
   emxFree_real_T(&b_activeFeaturesMasked);
-  for (j = 0; j < coffset; j++) {
-    maskFeatures->data[j] = (activeFeaturesMasked->data[j] > 0.05);
-  }
+
+  for (j = 0; j < coffset; j++) { maskFeatures->data[j] = (activeFeaturesMasked->data[j] > 0.05);}
 
   emxInit_boolean_T(&x, 2);
 
@@ -354,14 +349,13 @@ void generateFeaturesForTesting(emxArray_real_T *xSeparated, emxArray_real_T
   x->size[1] = maskFeatures->size[0];
   emxEnsureCapacity_boolean_T(x, j);
   coffset = maskFeatures->size[0];
-  for (j = 0; j < coffset; j++) {
-    for (m = 0; m < 24; m++) {
-      x->data[m + x->size[0] * j] = maskFeatures->data[j + maskFeatures->size[0]
-        * m];
+  for (j = 0; j < coffset; j++)
+    {
+    for (m = 0; m < 24; m++) { x->data[m + x->size[0] * j] = maskFeatures->data[j + maskFeatures->size[0] * m];}
     }
-  }
 
   emxInit_real_T1(&sumMask, 2);
+
   if (x->size[1] == 0) {
     j = sumMask->size[0] * sumMask->size[1];
     sumMask->size[0] = 1;
@@ -452,16 +446,17 @@ void generateFeaturesForTesting(emxArray_real_T *xSeparated, emxArray_real_T
   indexesSort->size[1] = m - j;
   emxEnsureCapacity_real_T1(indexesSort, aoffset);
   coffset = m - j;
-  for (aoffset = 0; aoffset < coffset; aoffset++) {
-    indexesSort->data[indexesSort->size[0] * aoffset] = sumMask->data[j +
-      aoffset];
-  }
+
+  for (aoffset = 0; aoffset < coffset; aoffset++)
+      { indexesSort->data[indexesSort->size[0] * aoffset] = sumMask->data[j +aoffset];}
 
   emxFree_real_T(&sumMask);
   aoffset = activeFeatures->size[0] * activeFeatures->size[1];
   activeFeatures->size[0] = indexesSort->size[1];
   activeFeatures->size[1] = 24;
   emxEnsureCapacity_real_T1(activeFeatures, aoffset);
+
+
   for (aoffset = 0; aoffset < 24; aoffset++) {
     coffset = indexesSort->size[1];
     for (boffset = 0; boffset < coffset; boffset++) {
@@ -475,12 +470,13 @@ void generateFeaturesForTesting(emxArray_real_T *xSeparated, emxArray_real_T
   activeMask->size[0] = indexesSort->size[1];
   activeMask->size[1] = 24;
   emxEnsureCapacity_boolean_T(activeMask, aoffset);
+
   for (aoffset = 0; aoffset < 24; aoffset++) {
-    coffset = indexesSort->size[1];
-    for (boffset = 0; boffset < coffset; boffset++) {
-      activeMask->data[boffset + activeMask->size[0] * aoffset] =
-        maskFeatures->data[((int)indexesSort->data[indexesSort->size[0] *
-                            boffset] + maskFeatures->size[0] * aoffset) - 1];
+        coffset = indexesSort->size[1];
+
+    for (boffset = 0; boffset < coffset; boffset++)
+    {
+ activeMask->data[boffset + activeMask->size[0] * aoffset] = maskFeatures->data[((int)indexesSort->data[indexesSort->size[0] *boffset] + maskFeatures->size[0] * aoffset) - 1];
     }
   }
 
@@ -489,9 +485,8 @@ void generateFeaturesForTesting(emxArray_real_T *xSeparated, emxArray_real_T
   /*  Get mean of features */
   combineVectorElements(activeFeatures, activeFeaturesMean);
   coffset = m - j;
-  for (aoffset = 0; aoffset < 24; aoffset++) {
-    activeFeaturesMean[aoffset] /= (double)coffset;
-  }
+
+  for (aoffset = 0; aoffset < 24; aoffset++) { activeFeaturesMean[aoffset] /= (double)coffset;}
 
   emxInit_boolean_T(&b_x, 2);
 
@@ -501,13 +496,12 @@ void generateFeaturesForTesting(emxArray_real_T *xSeparated, emxArray_real_T
   b_x->size[1] = 24;
   emxEnsureCapacity_boolean_T(b_x, aoffset);
   coffset = maskFeatures->size[0] * maskFeatures->size[1];
-  for (aoffset = 0; aoffset < coffset; aoffset++) {
-    b_x->data[aoffset] = !maskFeatures->data[aoffset];
-  }
 
-  if (b_x->size[0] == 0) {
-    memset(&noiseDen[0], 0, 24U * sizeof(double));
-  } else {
+  for (aoffset = 0; aoffset < coffset; aoffset++) { b_x->data[aoffset] = !maskFeatures->data[aoffset]; }
+
+  if (b_x->size[0] == 0) { memset(&noiseDen[0], 0, 24U * sizeof(double)); }
+
+  else {
     for (i = 0; i < 24; i++) {
       coffset = i * b_x->size[0];
       noiseDen[i] = b_x->data[coffset];
@@ -523,10 +517,9 @@ void generateFeaturesForTesting(emxArray_real_T *xSeparated, emxArray_real_T
   b_y->size[1] = 24;
   emxEnsureCapacity_real_T1(b_y, aoffset);
   coffset = maskFeatures->size[0] * maskFeatures->size[1];
-  for (aoffset = 0; aoffset < coffset; aoffset++) {
-    b_y->data[aoffset] = (double)!maskFeatures->data[aoffset] *
-      separatedFeatures->data[aoffset];
-  }
+
+  for (aoffset = 0; aoffset < coffset; aoffset++)
+ { b_y->data[aoffset] = (double)!maskFeatures->data[aoffset] *separatedFeatures->data[aoffset]; }
 
   emxFree_boolean_T(&maskFeatures);
   emxFree_real_T(&separatedFeatures);
@@ -559,28 +552,29 @@ void generateFeaturesForTesting(emxArray_real_T *xSeparated, emxArray_real_T
   activeFeaturesMasked->size[1] = 24;
   emxEnsureCapacity_real_T1(activeFeaturesMasked, j);
 
-  for (j = 0; j < 24; j++) {
+  for (j = 0; j < 24; j++)
+    {
     coffset = activeFeatures->size[0];
-    for (m = 0; m < coffset; m++) {
-      activeFeaturesMasked->data[m + activeFeaturesMasked->size[0] * j] =
-        activeFeatures->data[m + activeFeatures->size[0] * j] * b_y->data[m +
-        b_y->size[0] * j];
-    }
+
+    for (m = 0; m < coffset; m++)
+{ activeFeaturesMasked->data[m + activeFeaturesMasked->size[0] * j]
+= activeFeatures->data[m + activeFeatures->size[0] * j] * b_y->data[m +b_y->size[0] * j];}
   }
 
   emxFree_real_T(&b_y);
+
   if (activeFeaturesMasked->size[0] == 0) {
     j = b_xSeparatedPower->size[0];
     b_xSeparatedPower->size[0] = 0;
     emxEnsureCapacity_real_T(b_xSeparatedPower, j);
-  } else {
+  }
+  else {
     boffset = activeFeaturesMasked->size[0];
     j = b_xSeparatedPower->size[0];
     b_xSeparatedPower->size[0] = activeFeaturesMasked->size[0];
     emxEnsureCapacity_real_T(b_xSeparatedPower, j);
-    for (j = 0; j < boffset; j++) {
-      b_xSeparatedPower->data[j] = activeFeaturesMasked->data[j];
-    }
+
+ for (j = 0; j < boffset; j++) { b_xSeparatedPower->data[j] = activeFeaturesMasked->data[j]; }
 
     for (k = 0; k < 23; k++) {
       coffset = (k + 1) * boffset;
@@ -596,9 +590,8 @@ void generateFeaturesForTesting(emxArray_real_T *xSeparated, emxArray_real_T
   c_y->size[0] = b_xSeparatedPower->size[0];
   emxEnsureCapacity_real_T(c_y, j);
   coffset = b_xSeparatedPower->size[0];
-  for (j = 0; j < coffset; j++) {
-    c_y->data[j] = b_xSeparatedPower->data[j] / 24.0;
-  }
+
+  for (j = 0; j < coffset; j++) { c_y->data[j] = b_xSeparatedPower->data[j] / 24.0; }
 
   emxFree_real_T(&b_xSeparatedPower);
   j = activeFeatures->size[0] * activeFeatures->size[1];
@@ -606,10 +599,13 @@ void generateFeaturesForTesting(emxArray_real_T *xSeparated, emxArray_real_T
   activeFeatures->size[1] = 24;
   emxEnsureCapacity_real_T1(activeFeatures, j);
   coffset = c_y->size[0];
-  for (j = 0; j < coffset; j++) {
-    for (m = 0; m < 24; m++) {
-      y = c_y->data[j];
-      activeFeatures->data[j + activeFeatures->size[0] * m] -= y;
+
+  for (j = 0; j < coffset; j++)
+    {
+    for (m = 0; m < 24; m++)
+    {
+    y = c_y->data[j];
+    activeFeatures->data[j + activeFeatures->size[0] * m] -= y;
     }
   }
 

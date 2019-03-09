@@ -10,7 +10,7 @@
 #include "bbbox_voiceprintLookup_types.h"
 
 /* Function Declarations */
-extern void loadDatabaseFromFile(const char *databaseFile[255], cell_0 *varDatabase,cell_1 *choices);
+extern void loadDatabaseFromFile(const char *databaseFile[256],cell_0 *varDatabase, cell_1 *choices);
 
 
 #endif

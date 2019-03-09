@@ -9,6 +9,9 @@
 #include "generateScore.h"
 #include "generateFeaturesForTesting.h"
 
+// had to include this since using fork.
+#include "main.h"
+
 // not needed
 
 // #include "fclose.h"
@@ -27,7 +30,7 @@
  * Return Type  : void
  */
 void testWaveWithModels(const char *fileNameWaveSeparated[255], const char *fileNameWavePostfiltered[255],
-                        const cell_0 *modelStructure, cell_1 *choices, double scores[1000])
+     const cell_0 *modelStructure, cell_1 *choices, double scores[1000])
 {
 
   emxArray_real_T *xSeparated;
@@ -45,7 +48,8 @@ void testWaveWithModels(const char *fileNameWaveSeparated[255], const char *file
   double Bl[24];
   double choicesIndex[1000];
 
-  extern char voiceId[20];
+  extern char *voiceId[256];
+
 
   (void)fileNameWaveSeparated;  // what does this do ? matlab generated!
 
@@ -69,13 +73,6 @@ void testWaveWithModels(const char *fileNameWaveSeparated[255], const char *file
 
 // end error checking
 
-  /*  not support audioread matlab function */
-  /*  Load separated wave */
-  /*   xSeparated = audioread(fileNameWaveSeparated);  */
-  /*  Load post-filtered wave */
-  /*   xPostfiltered = audioread(fileNameWavePostfiltered); */
-
-
   // debug
   // puts("in testWaveWithModels.c...  ");
   // puts(fileNameWaveSeparated);
@@ -94,10 +91,14 @@ signed short junkA;
 fileid = fopen(fileNameWaveSeparated, "rb"); // error check
   if(fileid == NULL) {
       puts("Error determining wav file A size..");
-      exit(1);
+      /* means there was no file name sent ? clean filename buffers ? how can you get here? */
+      exit(0);
+
     }
   while (fread(&junkA, sizeof(signed short) ,1 , fileid) == 1) { wavSizeA++;}
   fclose(fileid);
+
+
 
   /// find size of wav file B
 int wavSizeB = 0; // 512 samples per cell
@@ -106,34 +107,74 @@ signed short junkB;
 fileid = fopen(fileNameWavePostfiltered, "rb"); // error check
   if(fileid == NULL) {
       puts("Error determining wav file B size..");
-      exit(1);
+      /* means there was no file name sent ? clean filename buffers ? how can we get here? */
+      exit(0);
     }
   while (fread(&junkB, sizeof(signed short) ,1 , fileid) == 1) { wavSizeB++;}
   fclose(fileid);
 
- if ( wavSizeA >= 15000000 ) {
-  printf("\r\n WAV size to long EXIT... avoiding being a memory hog ");
-  exit(1);
+
+
+/* align separated & postFiltered sample count */
+
+ if ( wavSizeA > wavSizeB)
+  {
+    int trimsizeA = wavSizeA - wavSizeB;
+   wavSizeA = wavSizeB;
+  printf(" \r\n trim %u samples off Separated to align PostFiltered sample count \r\n", trimsizeA);
+ }
+
+  if ( wavSizeB > wavSizeA)
+  {
+     int trimsizeB = wavSizeB - wavSizeA;
+   wavSizeB = wavSizeA;
+  printf("\r\n trim %u samples off PostFiltered to align Separated sample count \r\n", trimsizeB);
  }
 
 
- if ( wavSizeA == wavSizeB )
+  /// CHECK for massive WAV file size , lets not hog the CPU and memory !
+
+ if ( wavSizeA >= 10000000 )
  {
+  printf("\r\n > 10M samples ,process 1st 10Million only. Will segment file and run multiple tests on next version \r\n ");
+  wavSizeA = 10000000;
+  wavSizeB = 10000000;
+ }
+
+  /// CHECK for small WAV files of no use
+
+ if ( wavSizeA < 512 ) {
+  printf("\r\n < 512 samples, SKIP... \r\n ");
+  return;
+ }
+
+
+
+
+// if ( wavSizeA == wavSizeB )
+// {
+
 // dynamically allocate amx array memory size according to wav file size.
- xSeparated->size[0]=wavSizeA+1000;  //
- xPostfiltered->size[0]=wavSizeB+1000;
+ xSeparated->size[0]=wavSizeA+1;  //
+ xPostfiltered->size[0]=wavSizeB+1;
   // assign mem
  emxEnsureCapacity_real_T((emxArray_real_T *)xSeparated,0);
  emxEnsureCapacity_real_T((emxArray_real_T *)xPostfiltered,0);
 
-printf("\r\n dynamically allocated memory file1.. %u",wavSizeA,"\r\n");
-printf("\r\n dynamically allocated memory file2.. %u",wavSizeB,"\r\n");
- }
-else
-    {
-    printf("\r\n ERROR! please input wav pairs WaveSeparated & WavePostfiltered or use path to same wav file \r\n");
-    exit(0);
-     }
+// debug
+ printf("\r\n samples SP %u",wavSizeA,"\r\n");
+ printf("\r\n samples PF %u",wavSizeB,"\r\n");
+
+// }
+
+
+// else
+  //  {
+  //  printf("\r\n ERROR! please input wav pairs WaveSeparated & WavePostfiltered or use path to same wav file \r\n");
+
+  //  return;
+
+   //  }
 
 // impliment audioread, samples into memory.
 
@@ -148,7 +189,7 @@ fileid = fopen(fileNameWaveSeparated, "rb");
  // error check
   if(fileid == NULL) {
       puts("Error opening wav file A..");
-      exit(1);
+      return;
     }
   fseek (fileid,44,SEEK_SET); // drop the wav header we don't need it
   while (fread(&ssA, sizeof(signed short) ,1 , fileid) == 1)
@@ -172,8 +213,8 @@ int buffCountB = 0; //
 fileid = fopen(fileNameWavePostfiltered, "rb");
  // error check
   if(fileid == NULL) {
-      puts("Error opening wav file A..");
-      exit(1);
+      puts("Error opening wav file B..");
+      return;
     }
 
   fseek (fileid,44,SEEK_SET); // drop the wav header we don't need it
@@ -238,11 +279,11 @@ value = 0.0;
   emxInit_real_T1(&activeFeatures, 2);
   emxInit_boolean_T(&activeMask, 2);
 
-printf("\r\n scan features.. \r\n");
+printf("\r\n \r\n scan features.. \r\n \r\n");
   /*  Generate features  */
 generateFeaturesForTesting(xSeparated, xPostfiltered, w, activeFeatures, activeMask, noiseMask, Hl, Bl);
 
-printf("\r\n scan voiceprints.. \r\n");
+printf("\r\n \r\n scan voiceprints.. \r\n \r\n");
 
   ///  Generate score
 generateScore(modelStructure->f5, modelStructure->f6, modelStructure->f7,modelStructure->f8,
@@ -263,20 +304,31 @@ generateScore(modelStructure->f5, modelStructure->f6, modelStructure->f7,modelSt
 
 // PRINT FINAL VOICE PRINT!!!
 
-int lox = (int)choicesIndex[0];  // cast double to int for indexing modelNames.
 
-lox = lox; // matlab / octave .M arrays starts at 1 not 0
+int lox = (int)choicesIndex[0];  // cast double to int for indexing modelNames.
 
 // printf("%u",lox);
 
-printf ("\r\n \r\n Voiceprint Detected.. %s \r\n",choices->modelNames[lox]);  // 2d array modelNames in cell_1 strut
+if ( goodResult == 1 )
+ {
+printf ("\r\n \r\n Voiceprint Detected.. %s \r\n \r\n",choices->modelNames[lox]);  // 2d array modelNames in cell_1 strut
 
 //*********************************************************************************
 
 voiceId[0] = choices->modelNames[lox];  // get database voiceprint name of winner!
 //*****************************************************************************************
 
-return;
+goodResult = 0;
+
+  }
+else
+{
+
+voiceId[0] = ("junk");
+printf ("answer junk %s \r\n", voiceId[0]);
+}
+
+ return; /// back to bbbox_voiceprintLookup.c to IPC pipe the answer to parent process
 }
 
 /*

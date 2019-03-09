@@ -8,6 +8,8 @@
 
 /* Type Definitions */
 #include <stdio.h>
+
+
 #ifndef typedef_cell_0
 #define typedef_cell_0
 
@@ -27,6 +29,9 @@ typedef struct {
   double f13[6144];
   double f14[6144];
 } cell_0;
+
+
+
 
 #endif                                 /*typedef_cell_0*/
 

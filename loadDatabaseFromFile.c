@@ -12,27 +12,20 @@
 #include "fclose.h"
 #include "fileManager.h"
 
+// only for loadDatabaseFlag variable, maybe just use extern instead?
+#include "main.h"
 
-/* Function Definitions */
 
-/*
- * *************************************************************************                                                                      *
- *  * Inputs:  fileNameDatabase File which contains the database            *
- *  *                                                                       *
- *  * Outputs: varDatabase      Structure of the loaded database            *
- *  *                                                                       *
- *  *************************************************************************                                                                       *
- *  * Description:                                                          *
- *  *                                                                       *
- *  * This function loads the database stored in the file.                  *                                                                   *
- *  *************************************************************************
- * Arguments    : const char fileNameDatabase[17]
- *                cell_0 *varDatabase
- * Return Type  : void
- */
+
+/// WARNING nModelNames limited to 1000 , we need to dynamically size this array to unlimited
+
+   /* int nModelNumber should be the index to the date cell */
+ //    double cell_mega [1000] [6144]; // Warning this should be dynamically sized ?
+
+
 
   /*  open the database */
-void loadDatabaseFromFile(const char *fileNameDatabase[255], cell_0 *varDatabase,cell_1 *choices)
+void loadDatabaseFromFile(const char *fileNameDatabase[256],cell_0 *varDatabase, cell_1 *choices)
 
 {
   FILE *fileid;
@@ -85,7 +78,7 @@ char value[20];
         {
             buffer[len - 1] = 0;
         for (int i = 0; i<= len-1; i++) { nModels[i] = buffer[i];}
-            printf("\r\n number voiceprints in database... %s", nModels);
+
           nModelNumber = atoi(nModels); // put nModels into int nVoiceprints
             break;
         }}
@@ -98,7 +91,6 @@ char value[20];
         {
             buffer[len - 1] = 0;
         for (int i = 0; i<= len-1; i++) { nCentroids[i] = buffer[i];}
-        printf("\r\n nCentroids... %s",nCentroids);
             break;
         }}
 ///nDims
@@ -110,19 +102,82 @@ char value[20];
         {
             buffer[len - 1] = 0;
         for (int i = 0; i<= len-1; i++) { nDims[i] = buffer[i];}
-            printf("\r\n nDims... %s",nDims);
-            printf("\r\n");
             break;
         }}
 
+
+
 /// LOAD NAMES and VOICEPRINTS from database
 //*****************************************************************************************
-printf("\r\n names in database.. \r\n \r\n");
+
+/*
+/// LOOP in data into multidimensional double array , index and 6144 double numbers per person model
+
+
+for ( int modelCount = 0; modelCount < nModelNumber-1; modelCount++)
+
+{
+
+      while (!feof(fileid)) {
+        if (buffer != fgets(buffer, 20, fileid))
+            break;
+
+        int len = strlen(buffer);
+        if (buffer[len - 1] == '\n')
+        {
+            buffer[len - 1] = 0;
+        for (int i = 0; i<= len-1; i++) {choices->modelNames[modelCount][i] = buffer[i];}
+        printf("%s \r\n",choices->modelNames[modelCount]);
+            break;
+        }}
+
+ // values for person 1 in database
+
+ //  memset(&cell_mega[modelCount], 0, 6144U * sizeof(double));  // assign memory for new model
+
+ // get the values in 256 loop
+  for (iCentroid = 0; iCentroid < 256; iCentroid++) {
+
+        for (iDim = 0; iDim < 24; iDim++) {
+
+           // GET value
+  while (!feof(fileid)) {
+        if (buffer != fgets(buffer, 20, fileid))
+            break;
+
+        int len = strlen(buffer);
+        if (buffer[len - 1] == '\n')
+        {
+            buffer[len - 1] = 0; // strip newline char
+        for (int i = 0; i<= len-1; i++) { value[i] = buffer[i]; }
+        //END get value
+
+   //puts(value);  // for debug
+  char *ptr; // temporary place to read in string
+  // string to double
+  double finalValue = strtod(value, &ptr);
+
+ // load multidimensional array of data at index modelCount
+  cell_mega [modelCount] [iCentroid + (iDim << 8) ] = finalValue;
+
+  break;
+        }
+        }
+      }
+  }
+
+
+} // END nModelNumber loop ( number of people in database
+
+*/
+
+
+
+
 
 
 // ugly pointer to strut varDatabase->f5 , f6 , f7 , f8 , f9 etc ...
 // WE WILL USE A DATA BASE OF SOME KIND SO JUST REPEAT CODE FOR EACH VOICE FOR NOW !!!!!!!
-
 
 
 
@@ -139,7 +194,6 @@ printf("\r\n names in database.. \r\n \r\n");
         {
             buffer[len - 1] = 0;
         for (int i = 0; i<= len-1; i++) {choices->modelNames[0][i] = buffer[i];}
-        printf("%s \r\n",choices->modelNames[0]);
             break;
         }}
 
@@ -187,7 +241,6 @@ printf("\r\n names in database.. \r\n \r\n");
         {
             buffer[len - 1] = 0;
         for (int i = 0; i<= len-1; i++) { choices->modelNames[1][i] = buffer[i];}
-        printf("%s \r\n",choices->modelNames[1]);
             break;
         }}
 
@@ -234,7 +287,6 @@ printf("\r\n names in database.. \r\n \r\n");
         {
             buffer[len - 1] = 0;
         for (int i = 0; i<= len-1; i++) { choices->modelNames[2][i] = buffer[i];}
-        printf("%s \r\n",choices->modelNames[2]);
             break;
         }}
 
@@ -281,7 +333,6 @@ printf("\r\n names in database.. \r\n \r\n");
         {
             buffer[len - 1] = 0;
         for (int i = 0; i<= len-1; i++) { choices->modelNames[3][i] = buffer[i];}
-        printf("%s \r\n",choices->modelNames[3]);
             break;
         }}
 
@@ -328,7 +379,6 @@ memset(&varDatabase->f8[0], 0, 6144U * sizeof(double));
         {
             buffer[len - 1] = 0; // strip return line
         for (int i = 0; i<= len-1; i++) { choices->modelNames[4][i] = buffer[i];}
-        printf("%s \r\n",choices->modelNames[4]);
             break;
         }}
  // values for person 5 in database
@@ -370,7 +420,6 @@ memset(&varDatabase->f9[0], 0, 6144U * sizeof(double));
         {
             buffer[len - 1] = 0; // strip return line
         for (int i = 0; i<= len-1; i++) { choices->modelNames[5][i] = buffer[i];}
-        printf("%s \r\n",choices->modelNames[5]);
             break;
         }}
  // values for person 5 in database
@@ -411,7 +460,6 @@ memset(&varDatabase->f10[0], 0, 6144U * sizeof(double));
         {
             buffer[len - 1] = 0; // strip return line
         for (int i = 0; i<= len-1; i++) { choices->modelNames[6][i] = buffer[i];}
-        printf("%s \r\n",choices->modelNames[6]);
             break;
         }}
  // values for person 5 in database
@@ -452,7 +500,6 @@ memset(&varDatabase->f11[0], 0, 6144U * sizeof(double));
         {
             buffer[len - 1] = 0; // strip return line
         for (int i = 0; i<= len-1; i++) { choices->modelNames[7][i] = buffer[i];}
-        printf("%s \r\n",choices->modelNames[7]);
             break;
         }}
  // values for person 5 in database
@@ -492,7 +539,6 @@ memset(&varDatabase->f12[0], 0, 6144U * sizeof(double));
         {
             buffer[len - 1] = 0; // strip return line
         for (int i = 0; i<= len-1; i++) { choices->modelNames[8][i] = buffer[i];}
-        printf("%s \r\n",choices->modelNames[8]);
             break;
         }}
  // values for person 5 in database
@@ -533,7 +579,6 @@ memset(&varDatabase->f13[0], 0, 6144U * sizeof(double));
         {
             buffer[len - 1] = 0; // strip return line
         for (int i = 0; i<= len-1; i++) { choices->modelNames[9][i] = buffer[i];}
-        printf("%s \r\n",choices->modelNames[9]);
             break;
         }}
  // values for person 5 in database
@@ -563,9 +608,30 @@ memset(&varDatabase->f14[0], 0, 6144U * sizeof(double));
 
 
 
-printf("\r\n database file load success.. \r\n");
 
-  fclose(fileid);  //finished with open database text file
+
+  /// END keep this above until were sure alternative multi-dimensional database array is fully working :)
+
+
+   if ( loadDatabaseFlag < 2 )
+ {
+    printf("\r\n database file load success.. \r\n");
+    printf("\r\n number voiceprints in database... %s \r\n", nModels);
+    printf("\r\n nCentroids... %s \r\n",nCentroids);
+    printf("\r\n nDims... %s \r\n",nDims);
+
+    printf("\r\n names in database.. \r\n \r\n");
+
+
+ for ( int nms =0; nms < nModelNumber; nms++ )
+ {
+ printf("%s \r\n",choices->modelNames[nms]);
+ }
+ }
+
+
+
+  fclose(fileid);  ///finished with open database text file
 }
 
 

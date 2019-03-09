@@ -11,7 +11,7 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="/home/ben/test/newsound.wav /home/ben/test/newsound.wav /home/ben/test/modelDatabase.txt" />
+				<Option parameters="/home/ben/odas_recordings/ /home/ben/test/modelDatabase.txt" />
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>
